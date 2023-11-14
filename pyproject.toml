@@ -1,0 +1,21 @@
+[tool.poetry]
+name = "parrot"
+version = "0.1.0"
+description = "PARROT (Precise Audio Recognition & Recap Over Transcription) is a tool to write a Recap mail or report from a video recording of a call."
+authors = ["Your Name <you@example.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = ">=3.9,<=3.13"
+openai = "^1.2.2"
+pydub = "^0.25.1"
+ffmpeg-python = "^0.2.0"
+typer = {extras = ["all"], version = "^0.9.0"}
+
+
+[tool.poetry.group.dev.dependencies]
+ruff = "^0.1.5"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
