@@ -15,14 +15,10 @@ except ImportError:
 
 
 def speakerstamps(filepath: str) -> list[Speakerstamp]:
-    """It converts a Microsoft Stream .docx transcript to speakerstamps
-
-    Any speakerstamp reports the speaker and the timestamp of the utterance
-    """
+    """It converts a Microsoft Stream .docx transcript to speakerstamps"""
     if not has_docx:
-        raise ValueError(
-            "No python-docx module found. Have you tried running parrot[docx]?"
-        )
+        message = "parrot[docx] must be installed"
+        raise ValueError(message)
 
     document = docx.Document(filepath)
 
