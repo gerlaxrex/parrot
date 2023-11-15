@@ -41,7 +41,8 @@ async def amain():
         *[transcribe_audio(ac) for ac in audio_chunks],
         return_exceptions=True,
     )
-    return '\n\n'.join(txt)
+    return "\n\n".join(txt)
+
 
 if __name__ == "__main__":
     import asyncio
@@ -52,6 +53,10 @@ if __name__ == "__main__":
         "G:\Drive condivisi\Machine Learning Reply Events\Courses\Machine Learning Reply\Brainerdì\Recordings\Brainerdì-20231103_141650- Advanced Fusion Retrieval + Roadmaps.sh.mp4"
     )
     with open(
-            (RESOURCES_LOCATION/f"{get_filename(video_path)}-transcription.txt").as_posix(), "w", encoding="utf-8"
+        (
+            RESOURCES_LOCATION / f"{get_filename(video_path)}-transcription.txt"
+        ).as_posix(),
+        "w",
+        encoding="utf-8",
     ) as f:
         f.write(texts)
