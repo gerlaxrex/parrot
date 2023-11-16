@@ -1,10 +1,10 @@
 import os
-from typing import Union, List
+from typing import List, Union
 
 from pydub import AudioSegment
-from pydub.silence import split_on_silence
 
 from parrot.audio.utils.file_utils import get_extension
+from parrot.audio.utils.silence import split_on_silence
 
 
 def get_audio_from_video(video_filename: Union[str, os.PathLike]) -> AudioSegment:
@@ -26,8 +26,8 @@ def split_audio_for_size(audio: AudioSegment, max_time: int = 60) -> List[AudioS
     """
     max_millis = max_time * 1000
     # Splits on silence
-    audio_chunks = split_on_silence(
-        audio, min_silence_len=1000, silence_thresh=-40, keep_silence=100
+    audio_chunks, _ = split_on_silence(
+        audio, min_silence_len=1000, silence_thresh=-40, padding=100
     )
 
     # Reassemble the split chunks on the max length defined
