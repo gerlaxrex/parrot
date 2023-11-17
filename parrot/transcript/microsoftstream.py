@@ -16,7 +16,19 @@ except ImportError:
 
 
 def speakerstamps(filepath: str, T: int) -> list[Speakerstamp]:
-    """It converts a Microsoft Stream .docx transcript to speakerstamps"""
+    """It converts a Microsoft Stream .docx transcript to speakerstamps
+
+    Parameters
+    ----------
+    filepath
+        The transcript .docx filepath
+    T
+        The end of the trascript in millis
+
+    Returns
+    -------
+        The speakerstamps
+    """
     if not has_docx:
         message = "parrot[docx] must be installed"
         raise ValueError(message)
@@ -45,6 +57,10 @@ def speakerstamps(filepath: str, T: int) -> list[Speakerstamp]:
 
     M = [parsing(x) for x in document.paragraphs]
     M = [x for x in M if x is not None]
+
+    if T < M[-1][1]:
+        message = f"The transcript is longer than {T}"
+        raise ValueError(message)
 
     M = M + [(None, T)]
     X = []
