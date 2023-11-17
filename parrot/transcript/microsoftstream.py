@@ -7,7 +7,7 @@ from parrot.transcript.speakerstamp import Speakerstamp
 
 try:
     import docx
-    from pytimeparse2 import parse
+    from pytimeparse2 import disable_dateutil, parse
 
     has_docx = True
 except ImportError:
@@ -19,6 +19,8 @@ def speakerstamps(filepath: str) -> list[Speakerstamp]:
     if not has_docx:
         message = "parrot[docx] must be installed"
         raise ValueError(message)
+
+    disable_dateutil()  # It ensures timedeltas over relativedeltas
 
     document = docx.Document(filepath)
 
