@@ -1,6 +1,7 @@
 """A utility module for handling Microsoft Stream transcripts"""
 
 import re
+from concurrent import futures
 
 from parrot.transcript.speakerstamp import Speakerstamp
 
@@ -14,7 +15,7 @@ except ImportError:
     has_docx = False
 
 
-def speakerstamps(filepath: str) -> list[Speakerstamp]:
+def speakerstamps(filepath: str, max_workers: int = 1) -> list[Speakerstamp]:
     """It converts a Microsoft Stream .docx transcript to speakerstamps"""
     if not has_docx:
         message = "parrot[docx] must be installed"
@@ -28,21 +29,20 @@ def speakerstamps(filepath: str) -> list[Speakerstamp]:
         r"\n(?P<speaker>[A-Za-z]+(?:\s+[A-Za-z]+)*)\s+(?P<timestamp>[0-9]+:[0-9]+)\n"
     )
 
-    X = []
-
-    for x in document.paragraphs:
+    def inner(x: docx.text.paragraph.Paragraph) -> Speakerstamp | None:
         match = re.search(P, x.text)
 
-        if not match:
-            continue
+        if not match: return None
 
         speaker = match.group("speaker")
 
         timestamp = match.group("timestamp")
         timestamp = parse(timestamp, as_timedelta=True)
 
-        x = Speakerstamp(speaker, timestamp)
+        return Speakerstamp(speaker, timestamp)
 
-        X.append(x)
+    with futures.ThreadPoolExecutor(max_workers) as executor:
+        X = [executor.map(inner, x) for x in document.paragraphs]
+        X = [x for x in X if x is not None]
 
     return X
