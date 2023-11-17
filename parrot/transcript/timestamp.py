@@ -1,10 +1,11 @@
+"""A utility module for handling timestamps"""
 from dataclasses import dataclass
 from datetime import timedelta
 
 
-@dataclass(frozen=True, slots=True)
+@dataclass(slots=True)
 class Speakerstamp:
     """A speakerstamp reports the speaker and the timestamp of the utterance"""
 
     speaker: str
-    timestamp: timedelta
+    timestamp: tuple[timedelta, timedelta]
