@@ -46,19 +46,3 @@ async def generate_recap(texts: List[str]) -> str:
     )
 
     return recap.choices[0].text
-
-
-if __name__ == "__main__":
-    file = (
-        RESOURCES_LOCATION
-        / "Brainerdì-20231103_141650- Advanced Fusion Retrieval + Roadmaps.sh-transcription.txt"
-    )
-    with open(file, "r") as f:
-        texts = f.read().split("\n\n")
-
-    # summaries = asyncio.run(generate_chunks(texts))
-
-    mail = asyncio.run(generate_summary(texts))
-
-    with open(RESOURCES_LOCATION / "summaries") as f:
-        f.write("\n\n".join(summaries))
