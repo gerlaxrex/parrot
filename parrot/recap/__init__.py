@@ -11,7 +11,7 @@ Riassunto:
 """
 
 
-TOTAL_SUMMARIZATION_PROMPT = """
+EMAIL_PROMPT = """
 Sei un PM incaricato di generare delle email di recap che siano consistenti e ben fatte.
 Genera una email di riassunto partendo dalla trascrizione testuale di una chiamata su Microsoft Teams. 
 La mail deve essere di massimo 300 parole e devi selezionare i punti più importanti dati i seguenti testi.
@@ -23,4 +23,17 @@ Trascrizione:
 {testi}
 
 Email:
+"""
+
+
+RECAP_PROMPT = """
+Genera un riassunto dettagliato circa la trascrizione che ti verrà fornita. Il recap deve
+essere in formato .md, avere quindi un titolo principale riguardo il macro argomento, dei sottotitoli per ogni sezione
+e ovviamente i paragrafi. Formatta bene nel formato .md.
+Restituisci un riassunto pulito, scritto bene e utile per chiunque lo legga. Non tralasciare parti importanti.
+
+Trascrizione:
+{testi}
+
+Riassiunto:
 """
