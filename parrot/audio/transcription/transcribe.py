@@ -1,15 +1,21 @@
-import datetime
 import io
+import logging
 import os.path
+from typing import Union, List, Any
 
 from openai import AsyncClient
 from pydub import AudioSegment
 
-from parrot.audio.utils.file_utils import get_filename
+from tqdm.asyncio import tqdm_asyncio as tqdm
 
-from parrot import RESOURCES_LOCATION
+from parrot.audio.extraction.audio_extraction import (
+    get_audio_from_video,
+    split_audio_for_size,
+)
 
 aclient = AsyncClient()
+
+__logger = logging.getLogger(__file__)
 
 
 async def transcribe_audio(audio: AudioSegment) -> str:
@@ -22,41 +28,17 @@ async def transcribe_audio(audio: AudioSegment) -> str:
     return transcription.text
 
 
-async def amain():
-    import pathlib as pl
-    import asyncio
-    from parrot.audio.extraction.audio_extraction import (
-        get_audio_from_video,
-        split_audio_for_size,
+async def transcribe_video_source(
+    filepath: Union[str, os.PathLike], max_time: int = 3 * 60
+) -> List[Any]:
+    __logger.info(f"Transcribing video source at {filepath}")
+    audio = get_audio_from_video(video_filename=filepath)
+    audio_chunks = split_audio_for_size(audio, max_time=max_time)
+
+    transcription_chunks = await tqdm.gather(
+        *[transcribe_audio(ac) for ac in audio_chunks]
     )
 
-    # video_path = pl.Path(os.path.dirname(__file__)).parent.parent / "resources" / "WIN_20231110_20_23_03_Pro.mp4"
-    video_path = pl.Path(
-        "G:\Drive condivisi\Machine Learning Reply Events\Courses\Machine Learning Reply\Brainerdì\Recordings\Brainerdì-20231103_141650- Advanced Fusion Retrieval + Roadmaps.sh.mp4"
-    )
-    print(video_path)
-    audio = get_audio_from_video(video_filename=video_path)
-    audio_chunks = split_audio_for_size(audio, max_time=3 * 60)
-    txt = await asyncio.gather(
-        *[transcribe_audio(ac) for ac in audio_chunks],
-        return_exceptions=True,
-    )
-    return "\n\n".join(txt)
+    return transcription_chunks
 
 
-if __name__ == "__main__":
-    import asyncio
-    import pathlib as pl
-
-    texts = asyncio.run(amain())
-    video_path = pl.Path(
-        "G:\Drive condivisi\Machine Learning Reply Events\Courses\Machine Learning Reply\Brainerdì\Recordings\Brainerdì-20231103_141650- Advanced Fusion Retrieval + Roadmaps.sh.mp4"
-    )
-    with open(
-        (
-            RESOURCES_LOCATION / f"{get_filename(video_path)}-transcription.txt"
-        ).as_posix(),
-        "w",
-        encoding="utf-8",
-    ) as f:
-        f.write(texts)

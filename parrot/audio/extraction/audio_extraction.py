@@ -1,3 +1,4 @@
+import logging
 import os
 from typing import List, Union
 
@@ -5,6 +6,9 @@ from pydub import AudioSegment
 
 from parrot.audio.utils.file_utils import get_extension
 from parrot.audio.utils.silence import split_on_silence
+
+
+__logger = logging.getLogger(__name__)
 
 
 def get_audio_from_video(video_filename: Union[str, os.PathLike]) -> AudioSegment:
@@ -20,11 +24,12 @@ def get_audio_from_video(video_filename: Union[str, os.PathLike]) -> AudioSegmen
 def split_audio_for_size(audio: AudioSegment, max_time: int = 60) -> List[AudioSegment]:
     """
     Splits the video in chunks, in order to retrieve the audio and feed it to OpenAI Whisper.
-    :param max_time:
-    :param audio:
-    :return:
+    :param max_time: The maximum time of a chunk. Used as an upper bound for reassembling smaller chunks.
+    :param audio: The AudioSegment object to be splitted.
+    :return: a List of AudioSegment representing the chunks of the recording.
     """
     max_millis = max_time * 1000
+    __logger.debug(f"Using max chunk time {max_millis}")
     # Splits on silence
     audio_chunks, _ = split_on_silence(
         audio, min_silence_len=1000, silence_thresh=-40, padding=100
@@ -37,5 +42,9 @@ def split_audio_for_size(audio: AudioSegment, max_time: int = 60) -> List[AudioS
             reassembled_chunks[-1] += chunk
         else:
             reassembled_chunks.append(chunk)
+    __logger.info(
+        f"Finished chunking audio. Obtained {len(reassembled_chunks)} from a recording "
+        f"of {len(audio)//1000} seconds"
+    )
 
     return reassembled_chunks
