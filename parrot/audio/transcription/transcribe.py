@@ -40,5 +40,3 @@ async def transcribe_video_source(
     )
 
     return transcription_chunks
-
-

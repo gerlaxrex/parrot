@@ -1,11 +1,9 @@
 from typing import List
 from openai import AsyncClient
-from parrot.recap import (
-    CHUNK_PROMPT,
-    EMAIL_PROMPT,
-    RECAP_PROMPT,
-)
+from parrot.recap import CHUNK_PROMPT
 from tqdm.asyncio import tqdm_asyncio as tqdm
+
+from parrot.recap.tasks import ParrotTask, resolve_prompt_from_task
 
 aclient = AsyncClient()
 MODEL_TYPE = "gpt-3.5-turbo-instruct"
@@ -24,23 +22,19 @@ async def generate_chunks(texts: List[str]) -> List[str]:
     return [summary.choices[0].text for summary in summaries]
 
 
-async def generate_email(texts: List[str]) -> str:
+async def generate_final_result(
+    texts: List[str], task: ParrotTask = ParrotTask.RECAP
+) -> str:
     summaries = await generate_chunks(texts)
+
+    prompt = resolve_prompt_from_task(task)
+
+    if prompt is None:
+        raise RuntimeError(f"No prompt for the given task {task}.")
+
     recap = await aclient.completions.create(
         model=MODEL_TYPE,
-        prompt=EMAIL_PROMPT.format(testi="\n\n".join(summaries)),
-        max_tokens=500,
-        temperature=0.25,
-    )
-
-    return recap.choices[0].text
-
-
-async def generate_recap(texts: List[str]) -> str:
-    summaries = await generate_chunks(texts)
-    recap = await aclient.completions.create(
-        model=MODEL_TYPE,
-        prompt=RECAP_PROMPT.format(testi="\n\n".join(summaries)),
+        prompt=prompt.format(testi="\n\n".join(summaries)),
         max_tokens=500,
         temperature=0.25,
     )
