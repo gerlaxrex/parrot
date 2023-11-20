@@ -1,5 +1,6 @@
 """The command line interface (CLI) PARRoT app"""
 import asyncio
+import logging
 from typing import Optional, Annotated
 
 import typer
@@ -12,6 +13,27 @@ import pathlib as pl
 from parrot.recap.tasks import ParrotTask
 
 app = typer.Typer()
+
+
+class TyperLoggerHandler(logging.Handler):
+    """Handler for using normal logging in typer application.
+    Seen in https://github.com/tiangolo/typer/issues/203"""
+
+    def emit(self, record: logging.LogRecord) -> None:
+        fg = None
+        bg = None
+        if record.levelno == logging.DEBUG:
+            fg = typer.colors.BLACK
+        elif record.levelno == logging.INFO:
+            fg = typer.colors.BRIGHT_BLUE
+        elif record.levelno == logging.WARNING:
+            fg = typer.colors.BRIGHT_MAGENTA
+        elif record.levelno == logging.CRITICAL:
+            fg = typer.colors.BRIGHT_RED
+        elif record.levelno == logging.ERROR:
+            fg = typer.colors.BRIGHT_WHITE
+            bg = typer.colors.RED
+        typer.secho(self.format(record), bg=bg, fg=fg)
 
 
 @app.command()
@@ -60,4 +82,6 @@ def report(
 
 
 if __name__ == "__main__":
+    typer_handler = TyperLoggerHandler()
+    logging.basicConfig(level=logging.INFO, handlers=(typer_handler,))
     app()
