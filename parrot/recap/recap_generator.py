@@ -1,5 +1,7 @@
 from typing import List
 from openai import AsyncClient
+
+from parrot.audio.transcription.model import TimedTranscription
 from parrot.recap import CHUNK_PROMPT
 from tqdm.asyncio import tqdm_asyncio as tqdm
 
@@ -23,9 +25,9 @@ async def generate_chunks(texts: List[str]) -> List[str]:
 
 
 async def generate_final_result(
-    texts: List[str], task: ParrotTask = ParrotTask.RECAP
+    texts: List[TimedTranscription], task: ParrotTask = ParrotTask.RECAP
 ) -> str:
-    summaries = await generate_chunks(texts)
+    summaries = await generate_chunks([t.text for t in texts])
 
     prompt = resolve_prompt_from_task(task)
 
