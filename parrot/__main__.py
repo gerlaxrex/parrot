@@ -39,12 +39,19 @@ class TyperLoggerHandler(logging.Handler):
 @app.command()
 def mail(
     video_path: Annotated[str, typer.Argument()],
-    transcript: Annotated[Optional[str], typer.Argument()] = None,
-    output_filepath: Annotated[Optional[str], typer.Argument()] = None,
+    transcript: Annotated[Optional[str], typer.Option("--transcript", "-t")] = None,
+    output_filepath: Annotated[
+        Optional[str], typer.Option("--output_file", "-o")
+    ] = None,
+    use_faster_whisper: Annotated[
+        Optional[bool], typer.Option("--faster-whisper", "-fw")
+    ] = False,
 ) -> None:
     """Generates a recap mail for a given meeting. Optionally give a transcript with speakerstamps."""
     typer.echo("Writing email!")
-    transcription_chunks = asyncio.run(transcribe_video_source(video_path))
+    transcription_chunks = asyncio.run(
+        transcribe_video_source(video_path, use_faster_whisper=use_faster_whisper)
+    )
     email = asyncio.run(
         generate_final_result(texts=transcription_chunks, task=ParrotTask.MAIL)
     )
@@ -60,15 +67,20 @@ def mail(
 @app.command()
 def report(
     video_path: Annotated[str, typer.Argument()],
-    transcript: Annotated[Optional[str], typer.Argument()] = None,
-    output_filepath: Annotated[Optional[str], typer.Argument()] = None,
+    transcript: Annotated[Optional[str], typer.Option("--transcript", "-t")] = None,
+    output_filepath: Annotated[Optional[str], typer.Option("--out-file", "-o")] = None,
+    use_faster_whisper: Annotated[
+        Optional[bool], typer.Option("--faster-whisper", "-fw")
+    ] = False,
 ) -> None:
     """To generate a report from a video recording of a call
 
     If --transcript is provided, it will align the available speakerstamps
     """
     typer.echo("Writing Recap report!")
-    transcription_chunks = asyncio.run(transcribe_video_source(video_path))
+    transcription_chunks = asyncio.run(
+        transcribe_video_source(video_path, use_faster_whisper=use_faster_whisper)
+    )
     recap = asyncio.run(
         generate_final_result(texts=transcription_chunks, task=ParrotTask.RECAP)
     )
