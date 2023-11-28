@@ -27,12 +27,12 @@ async def generate_chunks(texts: List[str]) -> List[str]:
 async def generate_final_result(
     texts: List[TimedTranscription], task: ParrotTask = ParrotTask.RECAP
 ) -> str:
-    summaries = await generate_chunks([t.text for t in texts])
-
     prompt = resolve_prompt_from_task(task)
 
     if prompt is None:
         raise RuntimeError(f"No prompt for the given task {task}.")
+
+    summaries = await generate_chunks([t.text for t in texts])
 
     recap = await aclient.completions.create(
         model=MODEL_TYPE,
