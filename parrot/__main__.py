@@ -41,7 +41,7 @@ def mail(
     video_path: Annotated[str, typer.Argument()],
     transcript: Annotated[Optional[str], typer.Option("--transcript", "-t")] = None,
     output_filepath: Annotated[
-        Optional[str], typer.Option("--output_file", "-o")
+        Optional[str], typer.Option("--output_filepath", "-o")
     ] = None,
     use_faster_whisper: Annotated[
         Optional[bool], typer.Option("--faster-whisper", "-fw")
@@ -50,7 +50,9 @@ def mail(
     """Generates a recap mail for a given meeting. Optionally give a transcript with speakerstamps."""
     typer.echo("Writing email!")
     transcription_chunks = asyncio.run(
-        transcribe_video_source(video_path, use_faster_whisper=use_faster_whisper)
+        transcribe_video_source(
+            video_path, use_faster_whisper=use_faster_whisper, transcript=transcript
+        )
     )
     email = asyncio.run(
         generate_final_result(texts=transcription_chunks, task=ParrotTask.MAIL)
@@ -68,7 +70,9 @@ def mail(
 def report(
     video_path: Annotated[str, typer.Argument()],
     transcript: Annotated[Optional[str], typer.Option("--transcript", "-t")] = None,
-    output_filepath: Annotated[Optional[str], typer.Option("--out-file", "-o")] = None,
+    output_filepath: Annotated[
+        Optional[str], typer.Option("--output-filepath", "-o")
+    ] = None,
     use_faster_whisper: Annotated[
         Optional[bool], typer.Option("--faster-whisper", "-fw")
     ] = False,
@@ -79,7 +83,9 @@ def report(
     """
     typer.echo("Writing Recap report!")
     transcription_chunks = asyncio.run(
-        transcribe_video_source(video_path, use_faster_whisper=use_faster_whisper)
+        transcribe_video_source(
+            video_path, use_faster_whisper=use_faster_whisper, transcript=transcript
+        )
     )
     recap = asyncio.run(
         generate_final_result(texts=transcription_chunks, task=ParrotTask.RECAP)

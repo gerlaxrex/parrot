@@ -92,6 +92,7 @@ def transcribe_audio(
 async def transcribe_video_source(
     filepath: Union[str, os.PathLike],
     max_time: int = 3 * 60,
+    transcript: str = None,
     vtt: bool = False,
     use_faster_whisper: bool = False,
 ) -> List[TimedTranscription]:
