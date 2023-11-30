@@ -9,6 +9,10 @@ class TimedPiece(BaseModel):
     end: int
 
 
+class SpeakerStamp(TimedPiece):
+    speaker: str
+
+
 class TimedTranscription(BaseModel):
     text: str
     pieces: List[TimedPiece]

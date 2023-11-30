@@ -5,7 +5,7 @@ from typing import List, Union
 from pydub import AudioSegment
 from tqdm import tqdm
 
-from parrot.audio.utils.file_utils import get_extension
+from parrot.utils.file_utils import get_extension
 from parrot.audio.utils.silence import split_on_silence
 
 
@@ -37,6 +37,7 @@ def split_audio_for_size(audio: AudioSegment, max_time: int = 60) -> List[AudioS
     )
 
     # Reassemble the split chunks on the max length defined
+    __logger.info("Generating Audio chunks...")
     reassembled_chunks = [audio_chunks[0]]
     for chunk in tqdm(audio_chunks[1:]):
         if len(reassembled_chunks[-1]) < max_millis:

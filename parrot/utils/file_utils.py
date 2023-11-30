@@ -13,8 +13,3 @@ def get_extension(filename: Union[str, os.PathLike]) -> str:
 
 def get_filename(filepath: Union[str, os.PathLike]) -> str:
     return os.path.basename(filepath).rsplit(".", 1)[0]
-
-
-def get_model_cache_directory():
-    root = pl.Path.home()
-    return root / ".parrot" / "cached_models"

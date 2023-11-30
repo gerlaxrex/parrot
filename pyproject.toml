@@ -2,7 +2,7 @@
 name = "parrot"
 version = "0.1.0"
 description = "A tool for writing a recap mail or report from a video recording of a call"
-authors = ["Gerlando Re <g.re@reply.it>"]
+authors = ["Gerlando Re <gerlaxrex@gmail.com>", "Federico Minutoli <fede97.minutoli@gmail.com>", "Giorgio Crepaldi <giorgio.crepaldi93@gmail.com>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]

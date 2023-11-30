@@ -12,7 +12,8 @@ from parrot.audio.transcription.model import (
 )
 
 from tqdm.asyncio import tqdm_asyncio as tqdm
-from parrot.audio.utils.file_utils import get_model_cache_directory
+from parrot import PARROT_CACHED_MODELS
+from parrot.config.config import PARROT_CONFIGS
 
 from parrot.audio.extraction.audio_extraction import (
     get_audio_from_video,
@@ -25,8 +26,15 @@ try:
     from faster_whisper import WhisperModel
 
     has_faster_whisper = True
-except Exception:
+except ImportError:
     has_faster_whisper = False
+
+
+def __format_audio_onto_ndarray(audio_segment: AudioSegment) -> np.ndarray:
+    return (
+        np.frombuffer(audio_segment.raw_data, np.int16).flatten().astype(np.float32)
+        / 32768.0
+    )
 
 
 def get_client(
@@ -40,10 +48,13 @@ def get_client(
     if os.getenv("OPENAI_API_KEY") is not None and not use_faster_whisper:
         return AsyncClient()
     elif has_faster_whisper:
-        cache_root = get_model_cache_directory()
+        cache_root = PARROT_CACHED_MODELS
         __logger.info(f"Saving model at {cache_root.as_posix()}")
         os.makedirs(cache_root, exist_ok=True)
-        return WhisperModel(model_size_or_path="small", download_root=cache_root)
+        return WhisperModel(
+            model_size_or_path=PARROT_CONFIGS.asr_models.faster_whisper.model_type_or_size,
+            download_root=cache_root,
+        )
     else:
         __logger.error(
             "The faster-whisper package was not installed. Try by doing pip install parrot[faster-whisper]."
@@ -60,7 +71,11 @@ async def atranscribe_audio(
     buffer.name = "cucciolo.mp3"
     audio.export(buffer, format="mp3")
     transcription = await aclient.audio.transcriptions.create(
-        file=buffer, model="whisper-1", language="it"
+        file=buffer,
+        model=PARROT_CONFIGS.asr_models.whisper.model_type_or_size,
+        language=PARROT_CONFIGS.asr_models.whisper.language,
+        prompt=PARROT_CONFIGS.asr_models.whisper.prompt,
+        temperature=PARROT_CONFIGS.asr_models.whisper.temperature,
     )
     return TimedTranscription(text=transcription.text, pieces=[])
 
@@ -68,15 +83,15 @@ async def atranscribe_audio(
 def transcribe_audio(
     model: WhisperModel, audio: AudioSegment, vtt: bool = False
 ) -> TimedTranscription:
-    def format_audio_onto_ndarray(audio_segment: AudioSegment) -> np.ndarray:
-        return (
-            np.frombuffer(audio_segment.raw_data, np.int16).flatten().astype(np.float32)
-            / 32768.0
-        )
+    audio_array = __format_audio_onto_ndarray(audio)
 
-    audio_array = format_audio_onto_ndarray(audio)
-
-    segments, _ = model.transcribe(audio_array, language="it", beam_size=5)
+    segments, _ = model.transcribe(
+        audio_array,
+        language=PARROT_CONFIGS.asr_models.faster_whisper.language,
+        beam_size=PARROT_CONFIGS.asr_models.faster_whisper.beam_size,
+        temperature=PARROT_CONFIGS.asr_models.faster_whisper.temperature,
+        initial_prompt=PARROT_CONFIGS.asr_models.faster_whisper.prompt,
+    )
 
     segments = list(segments)
 
