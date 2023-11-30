@@ -1,8 +1,9 @@
 """A utility module for handling Microsoft Stream transcripts"""
 # pylint: disable=C0103
 import re
+from datetime import timedelta
 
-from parrot.transcript.timestamp import Speakerstamp, timedelta_to_millis
+from parrot.audio.transcription.model import SpeakerStamp
 from parrot.utils.itertools import pairwise
 
 
@@ -15,7 +16,12 @@ except ImportError:
     has_docx = False
 
 
-def speakerstamps(filepath: str, T: int) -> list[Speakerstamp]:
+def timedelta_to_millis(x: timedelta) -> int:
+    """It converts a timedelta to rounded millis"""
+    return round(x.total_seconds() * 1000)
+
+
+def speakerstamps(filepath: str, T: int) -> list[SpeakerStamp]:
     """It converts a Microsoft Stream .docx transcript to speakerstamps
 
     Parameters
@@ -66,7 +72,7 @@ def speakerstamps(filepath: str, T: int) -> list[Speakerstamp]:
     X = []
 
     for (speaker, s), (_, e) in pairwise(M):
-        x = Speakerstamp(speaker, (s, e))
+        x = SpeakerStamp(transcript="", speaker=speaker, start=s, end=e)
         X.append(x)
 
     return X

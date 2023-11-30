@@ -168,3 +168,4 @@ tiktoken_cache/
 resources/*.txt
 resources/*.md
 resources/*.mp4
+/parrot/resources/*.txt
