@@ -17,7 +17,8 @@ Genera una email di riassunto partendo dalla trascrizione testuale di una chiama
 La mail deve essere di massimo 300 parole e devi selezionare i punti più importanti dati i seguenti testi.
 Nella mail scrivi inizialmente un piccolo riassunto del tema principale, inserendo successivamente un elenco puntato con al massimo 10 punti salienti per la trascrizione.
 Puoi anche usare meno di 10 punti per l'elenco puntato, ma non utilizzarne più di 10.
-Concludi la mail con una frase di congedo.
+Concludi la mail con una frase di congedo. La mail deve necessariamente concludersi senza interruzioni. 
+Deve contenere massimo 300 parole.
 
 Trascrizione:
 {testi}
