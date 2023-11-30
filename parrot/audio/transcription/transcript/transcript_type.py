@@ -3,7 +3,7 @@
 import enum
 
 
-class Transcript(str, enum.Enum):
+class TranscriptType(str, enum.Enum):
     """An enum of supported transcript formats"""
 
     microsoftstream = "microsoftstream"
