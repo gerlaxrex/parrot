@@ -1,4 +1,8 @@
-CHUNK_PROMPT = """
+## PROMPT Storage for different languages (actually english and italian)
+
+# ITALIAN
+
+CHUNK_PROMPT_IT = """
 Genera un riassunto di massimo 100 parole data la trascrizione di una chiamata su Microsoft Teams che ti verrà fornita di seguito.
 Il riassunto deve essere una descrizione dei punti più importanti menzionati nella trascrizione.
 Devi identificare i punti più importanti e riportarli con delle frasi autoconclusive e concise.
@@ -11,7 +15,7 @@ Riassunto:
 """
 
 
-EMAIL_PROMPT = """
+EMAIL_PROMPT_IT = """
 Sei un PM incaricato di generare delle email di recap che siano consistenti e ben fatte.
 Genera una email di riassunto partendo dalla trascrizione testuale di una chiamata su Microsoft Teams. 
 La mail deve essere di massimo 300 parole e devi selezionare i punti più importanti dati i seguenti testi.
@@ -21,20 +25,67 @@ Concludi la mail con una frase di congedo. La mail deve necessariamente conclude
 Deve contenere massimo 300 parole.
 
 Trascrizione:
-{testi}
+{texts}
 
 Email:
 """
 
 
-RECAP_PROMPT = """
-Genera un riassunto dettagliato circa la trascrizione che ti verrà fornita. Il recap deve
-essere in formato .md, avere quindi un titolo principale riguardo il macro argomento, dei sottotitoli per ogni sezione
-e ovviamente i paragrafi. Formatta bene nel formato .md.
-Restituisci un riassunto pulito, scritto bene e utile per chiunque lo legga. Non tralasciare parti importanti.
+REPORT_PROMPT_IT = """
+Sulla base delle informazioni contenute nella trascrizione seguente, genera un report.
+Il report dovrebbe fornire un'analisi dettagliata di ciascun argomento discusso, spiegando come ciascun argomento ha contribuito alla riunione.
+Concentrati sulla pertinenza, l’affidabilità e il significato di ciascun argomento.
+Assicurati che il report sia ben strutturato, informativo, approfondito e segua una sintassi Markdown.
+Includi fatti, domande e numeri rilevanti quando disponibili.
+Il report dovrà avere una lunghezza minima di 1.200 parole e di massimo 2,500 parole.
 
 Trascrizione:
-{testi}
+{texts}
 
-Riassiunto:
+Report:
+"""
+
+# ENGLISH
+
+CHUNK_PROMPT_EN = """
+Generate a summary of up to 100 words given the Microsoft Teams call transcript provided below.
+The summary should be a description of the most important points mentioned in the transcript.
+You must identify the most important points and report them in self-contained and concise sentences.
+Reflect on your task point by point and generate the summary.
+
+Text:
+{text}
+
+Summary:
+"""
+
+
+EMAIL_PROMPT_EN = """
+You are a PM tasked with generating delivery emails that are consistent and well-crafted.
+Generate a summary email starting from the text transcription of a call on Microsoft Teams.
+The email must be a maximum of 300 words and you must select the most important points given the following texts.
+In the email, initially write a small summary of the main theme, subsequently inserting a bulleted list with a maximum of 10 salient points for transcription.
+You can also use fewer than 10 bullet points, but don't use more than 10.
+Conclude the email with a parting sentence. The email must necessarily end without interruption.
+Must contain a maximum of 300 words.
+
+Transcription:
+{texts}
+
+E-mail:
+"""
+
+
+REPORT_PROMPT_EN = """
+Based on the information in the following transcription, generate a report. 
+The report should provide a detailed analysis of each discussed topic, explaining how each topic contributed to the meeting.
+Focus on the relevance, reliability, and significance of each topic.
+Ensure that the report is well-structured, informative, in-depth, and follows Markdown syntax.
+Include relevant facts, questions, and numbers whenever available.
+The report should have a minimum length of 1,200 words and maximum of 2,500.
+
+Transcription:
+{texts}
+
+Recap:
 """
