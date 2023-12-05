@@ -1,11 +1,16 @@
+import enum
 from typing import Optional
 
 from pydantic import BaseModel
 
 
+class Language(str, enum.Enum):
+    EN = "en"
+    IT = "it"
+
+
 class ASRConfigs(BaseModel):
     model_type_or_size: str
-    language: Optional[str] = "it"
     temperature: Optional[float] = 0.1
     prompt: Optional[str] = ""
     beam_size: Optional[int] = 5
@@ -38,6 +43,7 @@ class GenerativeModelsConfigs(BaseModel):
 
 
 class ParrotConfigs(BaseModel):
+    language: Optional[Language] = Language.IT
     asr_models: ASRModelsConfigs
     generative_models: GenerativeModelsConfigs
 

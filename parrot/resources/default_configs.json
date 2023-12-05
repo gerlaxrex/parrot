@@ -1,14 +1,13 @@
 {
+  "language": "it",
   "asr_models": {
     "whisper": {
       "model_type_or_size": "whisper-1",
       "prompt": "",
-      "language": "it",
       "temperature": 0.1
     },
     "faster_whisper": {
       "model_type_or_size": "small",
-      "language": "it",
       "beam_size": 5,
       "temperature": 0.1,
       "prompt": ""
