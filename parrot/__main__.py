@@ -1,7 +1,6 @@
 """The command line interface (CLI) PARRoT app"""
 import asyncio
 import logging
-import os
 import shutil
 from typing import Optional, Annotated
 
@@ -106,8 +105,7 @@ def report(
 def reload_configs():
     """Reloads the default configurations inside the .parrot folder"""
     typer.secho("Reload configurations! *sqwuak*", fg=typer.colors.MAGENTA)
-    if not os.path.exists(PARROT_CONFIG_FILE):
-        shutil.copyfile(src=DEFAULT_CONFIGS_PATH, dst=PARROT_CONFIG_FILE)
+    shutil.copyfile(src=DEFAULT_CONFIGS_PATH, dst=PARROT_CONFIG_FILE)
 
 
 if __name__ == "__main__":
