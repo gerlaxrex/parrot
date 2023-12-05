@@ -49,7 +49,7 @@ def get_client(
         return AsyncClient()
     elif has_faster_whisper:
         cache_root = PARROT_CACHED_MODELS
-        __logger.info(f"Saving model at {cache_root.as_posix()}")
+        __logger.info(f"Using cache folder at {cache_root.as_posix()}")
         os.makedirs(cache_root, exist_ok=True)
         return WhisperModel(
             model_size_or_path=PARROT_CONFIGS.asr_models.faster_whisper.model_type_or_size,
