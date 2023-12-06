@@ -27,7 +27,7 @@ Deve contenere massimo 300 parole.
 Trascrizione:
 {texts}
 
-Email:
+E-mail:
 """
 
 
@@ -87,5 +87,5 @@ The report should have a minimum length of 1,200 words and maximum of 2,500.
 Transcription:
 {texts}
 
-Recap:
+Report:
 """
