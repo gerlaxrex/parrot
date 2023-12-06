@@ -1,10 +1,12 @@
 """The command line interface (CLI) PARRoT app"""
 import asyncio
 import logging
+import shutil
 from typing import Optional, Annotated
 
 import typer
 
+from parrot import PARROT_CONFIG_FILE, DEFAULT_CONFIGS_PATH
 from parrot.audio.transcription.transcribe import transcribe_video_source
 from parrot.recap.recap_generator import generate_final_result
 
@@ -97,6 +99,13 @@ def report(
 
     with open(output_filepath, "w") as f:
         f.write(recap)
+
+
+@app.command()
+def reload_configs():
+    """Reloads the default configurations inside the .parrot folder"""
+    typer.secho("Reload configurations! *sqwuak*", fg=typer.colors.MAGENTA)
+    shutil.copyfile(src=DEFAULT_CONFIGS_PATH, dst=PARROT_CONFIG_FILE)
 
 
 if __name__ == "__main__":

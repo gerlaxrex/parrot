@@ -49,7 +49,7 @@ def get_client(
         return AsyncClient()
     elif has_faster_whisper:
         cache_root = PARROT_CACHED_MODELS
-        __logger.info(f"Saving model at {cache_root.as_posix()}")
+        __logger.info(f"Using cache folder at {cache_root.as_posix()}")
         os.makedirs(cache_root, exist_ok=True)
         return WhisperModel(
             model_size_or_path=PARROT_CONFIGS.asr_models.faster_whisper.model_type_or_size,
@@ -73,7 +73,7 @@ async def atranscribe_audio(
     transcription = await aclient.audio.transcriptions.create(
         file=buffer,
         model=PARROT_CONFIGS.asr_models.whisper.model_type_or_size,
-        language=PARROT_CONFIGS.asr_models.whisper.language,
+        language=PARROT_CONFIGS.language,
         prompt=PARROT_CONFIGS.asr_models.whisper.prompt,
         temperature=PARROT_CONFIGS.asr_models.whisper.temperature,
     )
@@ -87,7 +87,7 @@ def transcribe_audio(
 
     segments, _ = model.transcribe(
         audio_array,
-        language=PARROT_CONFIGS.asr_models.faster_whisper.language,
+        language=PARROT_CONFIGS.language,
         beam_size=PARROT_CONFIGS.asr_models.faster_whisper.beam_size,
         temperature=PARROT_CONFIGS.asr_models.faster_whisper.temperature,
         initial_prompt=PARROT_CONFIGS.asr_models.faster_whisper.prompt,
