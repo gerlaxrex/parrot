@@ -17,6 +17,11 @@
     "openai": {
       "model_type_or_size": "gpt-3.5-turbo-instruct",
       "temperature": 0.2
+    },
+    "llama_cpp": {
+      "repo_id": "TheBloke/Llama-2-7B-GGUF",
+      "model_type_or_size": "llama-2-7b.Q4_K_M.gguf",
+      "temperature": 0.2
     }
   }
 }

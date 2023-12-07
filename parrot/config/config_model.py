@@ -18,6 +18,7 @@ class ASRConfigs(BaseModel):
 class LLMConfigs(BaseModel):
     model_type_or_size: str
     temperature: Optional[float] = 0.2
+    repo_id: Optional[str] = None
 
     class Config:
         frozen: True
@@ -33,13 +34,14 @@ class ASRModelsConfigs(BaseModel):
 
 class GenerativeModelsConfigs(BaseModel):
     openai: LLMConfigs
+    llama_cpp: LLMConfigs
 
     class Config:
         frozen: True
 
 
 class ParrotConfigs(BaseModel):
-    language: Optional[Language] = Language.IT
+    language: Optional[Language] = Language.IT.value
     asr_models: ASRModelsConfigs
     generative_models: GenerativeModelsConfigs
 
