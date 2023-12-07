@@ -1082,7 +1082,7 @@ setuptools = "*"
 name = "numpy"
 version = "1.26.2"
 description = "Fundamental package for array computing in Python"
-optional = true
+optional = false
 python-versions = ">=3.9"
 files = [
     {file = "numpy-1.26.2-cp310-cp310-macosx_10_9_x86_64.whl", hash = "sha256:3703fc9258a4a122d17043e57b35e5ef1c5a5837c3db8be396c82e04c1cf9b0f"},
@@ -1812,11 +1812,11 @@ testing = ["big-O", "jaraco.functools", "jaraco.itertools", "more-itertools", "p
 [extras]
 docx = ["python-docx", "pytimeparse2"]
 faster-whisper = ["faster-whisper"]
-llama-cpp = ["llama-cpp-python"]
-os-models = ["faster-whisper", "llama-cpp-python"]
+llama-cpp = ["huggingface-hub", "llama-cpp-python"]
+os-models = ["faster-whisper", "huggingface-hub", "llama-cpp-python"]
 plotting = ["matplotlib"]
 
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.9,<=3.13"
-content-hash = "187f8dc269372cd36d8a2bc3383761b353b0b6c7b50a23f56223ddbfe56dcc1b"
+content-hash = "2437f0b268377e7110d73e675316893401381074f89c7012c0596c19e176545f"

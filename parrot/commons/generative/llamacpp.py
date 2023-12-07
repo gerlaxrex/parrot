@@ -2,8 +2,13 @@ import logging
 import os.path
 from typing import Any, List, Optional
 
-import huggingface_hub
-from llama_cpp import Llama
+try:
+    import huggingface_hub
+    from llama_cpp import Llama
+
+    has_llama_cpp_extra = True
+except ImportError:
+    has_llama_cpp_extra = False
 from tqdm import tqdm
 
 from parrot import PARROT_CACHED_MODELS
