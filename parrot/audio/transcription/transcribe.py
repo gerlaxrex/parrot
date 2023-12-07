@@ -1,18 +1,14 @@
-import io
+import importlib.util
 import logging
 import os.path
 from typing import Union, List
 
-from openai import AsyncClient
-from pydub import AudioSegment
-import numpy as np
-from parrot.audio.transcription.model import (
-    TimedTranscription,
-    TimedPiece,
-)
+from parrot.audio.transcription.model import TimedTranscription
 
-from tqdm.asyncio import tqdm_asyncio as tqdm
 from parrot import PARROT_CACHED_MODELS
+from parrot.commons.asr.base import BaseASRModel
+from parrot.commons.asr.faster_whisper import FasterWhisper
+from parrot.commons.asr.openai_whisper import OpenaiWhisper
 from parrot.config.config import PARROT_CONFIGS
 
 from parrot.audio.extraction.audio_extraction import (
@@ -22,86 +18,43 @@ from parrot.audio.extraction.audio_extraction import (
 
 __logger = logging.getLogger(__file__)
 
-try:
-    from faster_whisper import WhisperModel
+s = importlib.util.find_spec(name="faster_whisper")
 
-    has_faster_whisper = True
-except ImportError:
-    has_faster_whisper = False
+has_faster_whisper = s is not None
 
 
-def __format_audio_onto_ndarray(audio_segment: AudioSegment) -> np.ndarray:
-    return (
-        np.frombuffer(audio_segment.raw_data, np.int16).flatten().astype(np.float32)
-        / 32768.0
-    )
-
-
-def get_client(
-    use_faster_whisper: bool = False
-) -> Union[AsyncClient, WhisperModel, None]:
+def get_client(use_faster_whisper: bool = False) -> Union[BaseASRModel, None]:
     if os.getenv("OPENAI_API_KEY") is None and not use_faster_whisper:
         __logger.warning(
             "OPENAI_API_KEY is not set but you're trying to use the OpenAI Apis."
             "The model choice will fallback to faster-whisper automatically."
         )
     if os.getenv("OPENAI_API_KEY") is not None and not use_faster_whisper:
-        return AsyncClient()
+        return OpenaiWhisper(
+            model_size_or_type=PARROT_CONFIGS.asr_models.whisper.model_type_or_size,
+            language=PARROT_CONFIGS.language,
+            temperature=PARROT_CONFIGS.asr_models.whisper.temperature,
+            prompt=PARROT_CONFIGS.asr_models.whisper.prompt,
+        )
     elif has_faster_whisper:
         cache_root = PARROT_CACHED_MODELS
         __logger.info(f"Using cache folder at {cache_root.as_posix()}")
         os.makedirs(cache_root, exist_ok=True)
-        return WhisperModel(
-            model_size_or_path=PARROT_CONFIGS.asr_models.faster_whisper.model_type_or_size,
+        return FasterWhisper(
+            model_size_or_type=PARROT_CONFIGS.asr_models.faster_whisper.model_type_or_size,
+            language=PARROT_CONFIGS.language,
+            prompt=PARROT_CONFIGS.asr_models.faster_whisper.prompt,
+            temperature=PARROT_CONFIGS.asr_models.faster_whisper.temperature,
+            beam_size=PARROT_CONFIGS.asr_models.faster_whisper.beam_size,
             download_root=cache_root,
         )
     else:
         __logger.error(
-            "The faster-whisper package was not installed. Try by doing pip install parrot[faster-whisper]."
+            "The faster-whisper package was not installed. Try fixing it by doing pip install parrot[faster-whisper]."
             "If not present, you cannot use a free ASR model such Whisper. "
-            "Please set the OPENAI_KEY_API environment variable."
+            "Please set the OPENAI_API_KEY environment variable."
         )
         return None
-
-
-async def atranscribe_audio(
-    aclient: AsyncClient, audio: AudioSegment
-) -> TimedTranscription:
-    buffer = io.BytesIO()
-    buffer.name = "cucciolo.mp3"
-    audio.export(buffer, format="mp3")
-    transcription = await aclient.audio.transcriptions.create(
-        file=buffer,
-        model=PARROT_CONFIGS.asr_models.whisper.model_type_or_size,
-        language=PARROT_CONFIGS.language,
-        prompt=PARROT_CONFIGS.asr_models.whisper.prompt,
-        temperature=PARROT_CONFIGS.asr_models.whisper.temperature,
-    )
-    return TimedTranscription(text=transcription.text, pieces=[])
-
-
-def transcribe_audio(
-    model: WhisperModel, audio: AudioSegment, vtt: bool = False
-) -> TimedTranscription:
-    audio_array = __format_audio_onto_ndarray(audio)
-
-    segments, _ = model.transcribe(
-        audio_array,
-        language=PARROT_CONFIGS.language,
-        beam_size=PARROT_CONFIGS.asr_models.faster_whisper.beam_size,
-        temperature=PARROT_CONFIGS.asr_models.faster_whisper.temperature,
-        initial_prompt=PARROT_CONFIGS.asr_models.faster_whisper.prompt,
-    )
-
-    segments = list(segments)
-
-    text = " ".join(s.text for s in segments)
-    pieces = []
-    if vtt:
-        pieces = [
-            TimedPiece(transcript=s.text, start=s.start, end=s.end) for s in segments
-        ]
-    return TimedTranscription(text=text, pieces=pieces)
 
 
 async def transcribe_video_source(
@@ -118,14 +71,8 @@ async def transcribe_video_source(
     # Get the right model
     client = get_client(use_faster_whisper)
 
-    if isinstance(client, AsyncClient):
-        transcription_chunks = await tqdm.gather(
-            *[atranscribe_audio(client, ac) for ac in audio_chunks]
-        )
-    elif isinstance(client, WhisperModel):
-        transcription_chunks = [
-            transcribe_audio(client, ac, vtt=vtt) for ac in audio_chunks
-        ]
+    if client is not None:
+        transcription_chunks = client.transcribe_chunks(audio_chunks, vtt)
     else:
         raise RuntimeError("No available method for ASR is possible.")
 
