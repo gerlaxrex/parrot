@@ -32,17 +32,20 @@ def get_client(use_faster_whisper: bool = False) -> Union[BaseASRModel, None]:
     if os.getenv("OPENAI_API_KEY") is not None and not use_faster_whisper:
         return OpenaiWhisper(
             model_size_or_type=PARROT_CONFIGS.asr_models.whisper.model_type_or_size,
-            language=PARROT_CONFIGS.language,
+            language=PARROT_CONFIGS.language.value,
             temperature=PARROT_CONFIGS.asr_models.whisper.temperature,
             prompt=PARROT_CONFIGS.asr_models.whisper.prompt,
         )
     elif has_faster_whisper:
         cache_root = PARROT_CACHED_MODELS
-        __logger.info(f"Using cache folder at {cache_root.as_posix()}")
+        __logger.info(
+            "Using Faster Whisper model."
+            f"Using model cached at folder at {cache_root.as_posix()}"
+        )
         os.makedirs(cache_root, exist_ok=True)
         return FasterWhisper(
             model_size_or_type=PARROT_CONFIGS.asr_models.faster_whisper.model_type_or_size,
-            language=PARROT_CONFIGS.language,
+            language=PARROT_CONFIGS.language.value,
             prompt=PARROT_CONFIGS.asr_models.faster_whisper.prompt,
             temperature=PARROT_CONFIGS.asr_models.faster_whisper.temperature,
             beam_size=PARROT_CONFIGS.asr_models.faster_whisper.beam_size,
@@ -57,7 +60,7 @@ def get_client(use_faster_whisper: bool = False) -> Union[BaseASRModel, None]:
         return None
 
 
-async def transcribe_video_source(
+def transcribe_video_source(
     filepath: Union[str, os.PathLike],
     max_time: int = 3 * 60,
     transcript: str = None,

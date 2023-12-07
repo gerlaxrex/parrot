@@ -1,5 +1,4 @@
 """The command line interface (CLI) PARRoT app"""
-import asyncio
 import logging
 import shutil
 import time
@@ -28,18 +27,20 @@ def mail(
     use_faster_whisper: Annotated[
         Optional[bool], typer.Option("--faster-whisper", "-fw")
     ] = False,
+    use_llama_cpp: Annotated[
+        Optional[bool], typer.Option("--llama-cpp", "-lc")
+    ] = False,
 ) -> None:
     """Generates a recap mail for a given meeting. Optionally give a transcript with speakerstamps."""
     s_time = time.perf_counter()
     typer.secho("*squawk* Writing mail! *squawk*", fg=typer.colors.BRIGHT_GREEN)
-    transcription_chunks = asyncio.run(
-        transcribe_video_source(
-            video_path, use_faster_whisper=use_faster_whisper, transcript=transcript
-        )
+    transcription_chunks = transcribe_video_source(
+        video_path, use_faster_whisper=use_faster_whisper, transcript=transcript
     )
-    email = asyncio.run(
-        generate_final_result(texts=transcription_chunks, task=ParrotTask.MAIL)
+    email = generate_final_result(
+        texts=transcription_chunks, task=ParrotTask.MAIL, use_llama_cpp=use_llama_cpp
     )
+
     if output_filepath:
         output_filepath = pl.Path(output_filepath)
     else:
@@ -61,20 +62,23 @@ def report(
     use_faster_whisper: Annotated[
         Optional[bool], typer.Option("--faster-whisper", "-fw")
     ] = False,
+    use_llama_cpp: Annotated[
+        Optional[bool], typer.Option("--llama-cpp", "-lc")
+    ] = False,
 ) -> None:
     """To generate a report from a video recording of a call
 
     If --transcript is provided, it will align the available speakerstamps
     """
     typer.secho("*squawk* Writing Recap report! *squawk*", fg=typer.colors.BRIGHT_BLUE)
-    transcription_chunks = asyncio.run(
-        transcribe_video_source(
-            video_path, use_faster_whisper=use_faster_whisper, transcript=transcript
-        )
+    transcription_chunks = transcribe_video_source(
+        video_path, use_faster_whisper=use_faster_whisper, transcript=transcript
     )
-    recap = asyncio.run(
-        generate_final_result(texts=transcription_chunks, task=ParrotTask.RECAP)
+
+    recap = generate_final_result(
+        texts=transcription_chunks, task=ParrotTask.RECAP, use_llama_cpp=use_llama_cpp
     )
+
     if output_filepath:
         output_filepath = pl.Path(output_filepath)
     else:
