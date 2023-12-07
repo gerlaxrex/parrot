@@ -21,7 +21,7 @@ class BaseLLMModel(ABC):
         raise NotImplementedError("Abstract class. You should reimplement the method.")
 
     @abstractmethod
-    def generate_from_prompts(self, prompts: List[str], **kwargs) -> List[str]:
+    async def generate_from_prompts(self, prompts: List[str], **kwargs) -> List[str]:
         raise NotImplementedError("Abstract class. You should reimplement the method.")
 
     @abstractmethod

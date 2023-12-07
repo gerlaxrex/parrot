@@ -27,16 +27,14 @@ class OpenaiGPTModel(BaseLLMModel):
     def __call__(self, prompt: str, **kwargs) -> str:
         return asyncio.run(asyncio.create_task(self.agenerate(prompt, **kwargs)))
 
-    def generate_from_prompts(self, prompts: List[str], **kwargs) -> List[str]:
-        responses = asyncio.run(
-            tqdm.gather(
-                *[
-                    self.client_or_model.completions.create(
-                        model=self.model_size_or_type, prompt=prompt, **kwargs
-                    )
-                    for prompt in prompts
-                ]
-            )
+    async def generate_from_prompts(self, prompts: List[str], **kwargs) -> List[str]:
+        responses = await tqdm.gather(
+            *[
+                self.client_or_model.completions.create(
+                    model=self.model_size_or_type, prompt=prompt, **kwargs
+                )
+                for prompt in prompts
+            ]
         )
 
         return [response.choices[0].text for response in responses]

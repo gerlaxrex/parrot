@@ -41,7 +41,9 @@ class LlamaCppModel(BaseLLMModel):
             )
 
     async def agenerate(self, prompt: str, **kwargs) -> str:
-        raise NotImplementedError("Not implemented. Use the generate method instead.")
+        return self.client_or_model.create_completion(prompt=prompt, **kwargs)[
+            "choices"
+        ][0]["text"]
 
     def generate(self, prompt: str, **kwargs) -> str:
         return self.client_or_model.create_completion(prompt=prompt, **kwargs)[
@@ -51,5 +53,5 @@ class LlamaCppModel(BaseLLMModel):
     def __call__(self, prompt: str, **kwargs) -> str:
         return self.generate(prompt, **kwargs)
 
-    def generate_from_prompts(self, prompts: List[str], **kwargs) -> List[str]:
+    async def generate_from_prompts(self, prompts: List[str], **kwargs) -> List[str]:
         return [self.generate(prompt, **kwargs) for prompt in tqdm(prompts)]

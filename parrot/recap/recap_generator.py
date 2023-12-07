@@ -48,12 +48,12 @@ def get_client(use_llama_cpp: bool = False) -> Union[BaseLLMModel, None]:
             return None
 
 
-def generate_chunks(client: BaseLLMModel, texts: List[str]) -> List[str]:
+async def generate_chunks(client: BaseLLMModel, texts: List[str]) -> List[str]:
     prompt = resolve_prompt_from_task(
         ParrotTask.CHUNK, language=PARROT_CONFIGS.language
     )
 
-    summaries = client.generate_from_prompts(
+    summaries = await client.generate_from_prompts(
         prompts=[prompt.format(text=text) for text in texts],
         max_tokens=400,
         temperature=0.15,
@@ -62,7 +62,7 @@ def generate_chunks(client: BaseLLMModel, texts: List[str]) -> List[str]:
     return summaries
 
 
-def generate_final_result(
+async def generate_final_result(
     texts: List[TimedTranscription],
     task: ParrotTask = ParrotTask.RECAP,
     use_llama_cpp: bool = False,
@@ -70,9 +70,9 @@ def generate_final_result(
     prompt = resolve_prompt_from_task(task, language=PARROT_CONFIGS.language)
     client = get_client(use_llama_cpp)
 
-    summaries = generate_chunks(client, [t.text for t in texts])
+    summaries = await generate_chunks(client, [t.text for t in texts])
 
-    recap = client(
+    recap = await client.agenerate(
         prompt=prompt.format(texts="\n\n".join(summaries)),
         max_tokens=750,
         temperature=0.25,
