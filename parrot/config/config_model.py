@@ -1,12 +1,8 @@
-import enum
 from typing import Optional
 
 from pydantic import BaseModel
 
-
-class Language(str, enum.Enum):
-    EN = "en"
-    IT = "it"
+from parrot.commons.models.language import Language
 
 
 class ASRConfigs(BaseModel):

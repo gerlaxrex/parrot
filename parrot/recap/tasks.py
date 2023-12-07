@@ -1,6 +1,6 @@
 import enum
 
-from parrot.config.config_model import Language
+from parrot.commons.models.language import Language
 from parrot.recap import (
     EMAIL_PROMPT_EN,
     EMAIL_PROMPT_IT,
