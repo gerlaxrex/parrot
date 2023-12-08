@@ -1,4 +1,5 @@
 """The command line interface (CLI) PARRoT app"""
+import asyncio
 import logging
 import shutil
 import time
@@ -37,8 +38,12 @@ def mail(
     transcription_chunks = transcribe_video_source(
         video_path, use_faster_whisper=use_faster_whisper, transcript=transcript
     )
-    email = generate_final_result(
-        texts=transcription_chunks, task=ParrotTask.MAIL, use_llama_cpp=use_llama_cpp
+    email = asyncio.run(
+        generate_final_result(
+            texts=transcription_chunks,
+            task=ParrotTask.MAIL,
+            use_llama_cpp=use_llama_cpp,
+        )
     )
 
     if output_filepath:
@@ -75,8 +80,12 @@ def report(
         video_path, use_faster_whisper=use_faster_whisper, transcript=transcript
     )
 
-    recap = generate_final_result(
-        texts=transcription_chunks, task=ParrotTask.RECAP, use_llama_cpp=use_llama_cpp
+    recap = asyncio.run(
+        generate_final_result(
+            texts=transcription_chunks,
+            task=ParrotTask.RECAP,
+            use_llama_cpp=use_llama_cpp,
+        )
     )
 
     if output_filepath:
