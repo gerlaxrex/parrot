@@ -17,8 +17,17 @@ class ASRConfigs(BaseModel):
 
 class LLMConfigs(BaseModel):
     model_type_or_size: str
-    temperature: Optional[float] = 0.2
     repo_id: Optional[str] = None
+
+    class Config:
+        frozen: True
+
+
+class LLMParamsConfigs(BaseModel):
+    temperature: Optional[float] = 0.2
+    top_k: Optional[int] = 40
+    top_p: Optional[float] = 0.9
+    max_tokens: Optional[int] = 4096
 
     class Config:
         frozen: True
@@ -33,6 +42,8 @@ class ASRModelsConfigs(BaseModel):
 
 
 class GenerativeModelsConfigs(BaseModel):
+    chunking: Optional[LLMParamsConfigs]
+    text_generation: Optional[LLMParamsConfigs]
     openai: LLMConfigs
     llama_cpp: LLMConfigs
 

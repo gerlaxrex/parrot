@@ -55,8 +55,8 @@ async def generate_chunks(client: BaseLLMModel, texts: List[str]) -> List[str]:
 
     summaries = await client.generate_from_prompts(
         prompts=[prompt.format(text=text) for text in texts],
-        max_tokens=400,
-        temperature=0.15,
+        max_tokens=PARROT_CONFIGS.generative_models.chunking.max_tokens,
+        temperature=PARROT_CONFIGS.generative_models.chunking.temperature,
     )
 
     return summaries
@@ -74,8 +74,8 @@ async def generate_final_result(
 
     recap = await client.agenerate(
         prompt=prompt.format(texts="\n\n".join(summaries)),
-        max_tokens=750,
-        temperature=0.25,
+        max_tokens=PARROT_CONFIGS.generative_models.text_generation.max_tokens,
+        temperature=PARROT_CONFIGS.generative_models.text_generation.temperature,
     )
 
     return recap
