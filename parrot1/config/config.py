@@ -3,8 +3,8 @@ import logging
 
 from pydantic.error_wrappers import ValidationError
 
-from parrot import PARROT_CONFIG_FILE
-from parrot.config.config_model import ParrotConfigs
+from parrot1 import PARROT_CONFIG_FILE
+from parrot1.config.config_model import ParrotConfigs
 
 __logger = logging.getLogger(__name__)
 
@@ -21,6 +21,6 @@ try:
 except ValidationError as exc:
     __logger.error(
         "Something bad happened during the configurations loading."
-        "Try running the 'parrot reload-configs' command in order to reset the configurations to a correct formatting."
+        "Try running the 'parrot1 reload-configs' command in order to reset the configurations to a correct formatting."
     )
     __logger.error(exc)

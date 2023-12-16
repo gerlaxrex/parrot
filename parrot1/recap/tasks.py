@@ -1,7 +1,7 @@
 import enum
 
-from parrot.commons.models.language import Language
-from parrot.recap import (
+from parrot1.commons.models.language import Language
+from parrot1.recap import (
     EMAIL_PROMPT_EN,
     EMAIL_PROMPT_IT,
     CHUNK_PROMPT_EN,

@@ -5,7 +5,7 @@ from typing import Any, List, Optional
 from openai import AsyncClient
 from tqdm.asyncio import tqdm_asyncio as tqdm
 
-from parrot.commons.generative.base import BaseLLMModel
+from parrot1.commons.generative.base import BaseLLMModel
 
 
 class OpenaiGPTModel(BaseLLMModel):

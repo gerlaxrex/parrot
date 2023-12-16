@@ -5,8 +5,8 @@ from typing import List, Union
 from pydub import AudioSegment
 from tqdm import tqdm
 
-from parrot.utils.file_utils import get_extension
-from parrot.audio.utils.silence import split_on_silence
+from parrot1.utils.file_utils import get_extension
+from parrot1.audio.utils.silence import split_on_silence
 
 
 __logger = logging.getLogger(__name__)

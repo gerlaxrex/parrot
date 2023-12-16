@@ -2,7 +2,7 @@ from typing import Optional
 
 from pydantic import BaseModel
 
-from parrot.commons.models.language import Language
+from parrot1.commons.models.language import Language
 
 
 class ASRConfigs(BaseModel):

@@ -3,8 +3,8 @@
 import re
 from datetime import timedelta
 
-from parrot.audio.transcription.model import SpeakerStamp
-from parrot.utils.itertools import pairwise
+from parrot1.audio.transcription.model import SpeakerStamp
+from parrot1.utils.itertools import pairwise
 
 
 try:
@@ -36,7 +36,7 @@ def speakerstamps(filepath: str, T: int) -> list[SpeakerStamp]:
         The speakerstamps
     """
     if not has_docx:
-        message = "parrot[docx] must be installed"
+        message = "parrot1[docx] must be installed"
         raise ValueError(message)
 
     disable_dateutil()  # It ensures timedeltas over relativedeltas

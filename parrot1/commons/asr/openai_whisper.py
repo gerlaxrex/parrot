@@ -7,9 +7,9 @@ from pydub import AudioSegment
 
 from tqdm.asyncio import tqdm_asyncio
 
-from parrot.audio.transcription.model import TimedTranscription
-from parrot.commons.asr.base import BaseASRModel
-from parrot.commons.models.language import Language
+from parrot1.audio.transcription.model import TimedTranscription
+from parrot1.commons.asr.base import BaseASRModel
+from parrot1.commons.models.language import Language
 from openai import AsyncClient
 
 

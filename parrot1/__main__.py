@@ -7,13 +7,13 @@ from typing import Optional, Annotated
 
 import typer
 
-from parrot import PARROT_CONFIG_FILE, DEFAULT_CONFIGS_PATH
-from parrot.audio.transcription.transcribe import transcribe_video_source
-from parrot.recap.recap_generator import generate_final_result
+from parrot1 import PARROT_CONFIG_FILE, DEFAULT_CONFIGS_PATH
+from parrot1.audio.transcription.transcribe import transcribe_video_source
+from parrot1.recap.recap_generator import generate_final_result
 
 import pathlib as pl
 
-from parrot.recap.tasks import ParrotTask
+from parrot1.recap.tasks import ParrotTask
 
 app = typer.Typer()
 
@@ -99,7 +99,7 @@ def report(
 
 @app.command()
 def reload_configs():
-    """Reloads the default configurations inside the .parrot folder"""
+    """Reloads the default configurations inside the .parrot1 folder"""
     typer.secho("Reload configurations! *sqwuak*", fg=typer.colors.MAGENTA)
     shutil.copyfile(src=DEFAULT_CONFIGS_PATH, dst=PARROT_CONFIG_FILE)
 
