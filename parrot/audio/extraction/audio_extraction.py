@@ -18,6 +18,8 @@ def get_audio_from_video(video_filename: Union[str, os.PathLike]) -> AudioSegmen
     :param video_filename: (Union[str, os.PathLike]) path to the video
     :return: (io.BytesIO) Audio bytes
     """
+    if not os.path.exists(video_filename):
+        raise FileNotFoundError(f"File at {video_filename} does not exists.")
     audio = AudioSegment.from_file(video_filename, format=get_extension(video_filename))
     return audio
 
