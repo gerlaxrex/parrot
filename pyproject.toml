@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "PARRoT"
+name = "parrot1"
 version = "0.1.0-alpha"
 description = "A tool for writing a recap mail or report from a video recording of a call"
 authors = ["Gerlando Re <gerlaxrex@gmail.com>", "Federico Minutoli <fede97.minutoli@gmail.com>", "Giorgio Crepaldi <giorgio.crepaldi93@gmail.com>"]
