@@ -33,6 +33,9 @@ all = ["python-docx", "pytimeparse2", "matplotlib", "faster-whisper", "llama-cpp
 [tool.poetry.group.dev.dependencies]
 ruff = "~0.1.5"
 pre-commit = "^3.5.0"
+
+
+[tool.poetry.group.test.dependencies]
 pytest = "^7.4.3"
 
 [build-system]

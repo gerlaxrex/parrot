@@ -32,7 +32,7 @@ jobs:
 
     - name: Install dependency
       working-directory: .
-      run: poetry install --with test
+      run: poetry install --all-extras --with test
 
     - name: Run tests
       working-directory: .
