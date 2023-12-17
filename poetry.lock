@@ -1869,6 +1869,7 @@ docs = ["furo", "jaraco.packaging (>=9.3)", "jaraco.tidelift (>=1.4)", "rst.link
 testing = ["big-O", "jaraco.functools", "jaraco.itertools", "more-itertools", "pytest (>=6)", "pytest-black (>=0.3.7)", "pytest-checkdocs (>=2.4)", "pytest-cov", "pytest-enabler (>=2.2)", "pytest-ignore-flaky", "pytest-mypy (>=0.9.1)", "pytest-ruff"]
 
 [extras]
+all = ["faster-whisper", "huggingface-hub", "llama-cpp-python", "matplotlib", "python-docx", "pytimeparse2"]
 docx = ["python-docx", "pytimeparse2"]
 faster-whisper = ["faster-whisper"]
 llama-cpp = ["huggingface-hub", "llama-cpp-python"]
@@ -1878,4 +1879,4 @@ plotting = ["matplotlib"]
 [metadata]
 lock-version = "2.0"
 python-versions = ">=3.9,<=3.13"
-content-hash = "78375b20b70222bd3c53d5d13b57d373894fc2031c2f48547e78cce08e2a34c3"
+content-hash = "13e0417b7873298446c74d4d015f7ff0d8961caa3845f79112a5252f89b7da22"

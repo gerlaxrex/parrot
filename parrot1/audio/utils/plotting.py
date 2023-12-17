@@ -15,7 +15,7 @@ except ImportError:
 def plot_segment(segment: pydub.AudioSegment) -> None:
     """It plots the amplitude of a segment over time"""
     if not has_plotting:
-        message = "parrot[plotting] must be installed"
+        message = "parrot1[plotting] must be installed"
         raise ValueError(message)
 
     T = segment.duration_seconds

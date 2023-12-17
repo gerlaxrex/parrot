@@ -3,8 +3,8 @@ from typing import Optional, Any, List
 
 from pydub import AudioSegment
 
-from parrot.audio.transcription.model import TimedTranscription
-from parrot.commons.models.language import Language
+from parrot1.audio.transcription.model import TimedTranscription
+from parrot1.commons.models.language import Language
 
 
 class BaseASRModel(ABC):

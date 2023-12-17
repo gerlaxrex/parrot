@@ -1,4 +1,4 @@
-name: parrot CI CD
+name: parrot1 CI CD
 
 on:
   workflow_dispatch:

@@ -1,6 +1,6 @@
 import pytest
-from parrot import PARROT_CONFIG_FILE
-from parrot.utils.file_utils import get_filename
+from parrot1 import PARROT_CONFIG_FILE
+from parrot1.utils.file_utils import get_filename
 
 
 @pytest.fixture

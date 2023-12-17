@@ -1,9 +1,12 @@
 [tool.poetry]
-name = "PARRoT"
-version = "0.1.0"
+name = "parrot1"
+version = "0.1.0-alpha1"
 description = "A tool for writing a recap mail or report from a video recording of a call"
 authors = ["Gerlando Re <gerlaxrex@gmail.com>", "Federico Minutoli <fede97.minutoli@gmail.com>", "Giorgio Crepaldi <giorgio.crepaldi93@gmail.com>"]
 readme = "README.md"
+
+[tool.poetry.scripts]
+parrot = "parrot1.__main__:app"
 
 [tool.poetry.dependencies]
 python = ">=3.9,<=3.13"
@@ -25,6 +28,7 @@ plotting = ["matplotlib"]
 faster-whisper = ["faster-whisper"]
 llama-cpp = ["llama-cpp-python", "huggingface-hub"]
 os-models = ["faster-whisper", "llama-cpp-python", "huggingface-hub"]
+all = ["python-docx", "pytimeparse2", "matplotlib", "faster-whisper", "llama-cpp-python", "huggingface-hub"]
 
 [tool.poetry.group.dev.dependencies]
 ruff = "~0.1.5"

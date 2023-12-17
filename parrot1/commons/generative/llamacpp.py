@@ -11,8 +11,8 @@ except ImportError:
     has_llama_cpp_extra = False
 from tqdm import tqdm
 
-from parrot import PARROT_CACHED_MODELS
-from parrot.commons.generative.base import BaseLLMModel
+from parrot1 import PARROT_CACHED_MODELS
+from parrot1.commons.generative.base import BaseLLMModel
 
 
 class LlamaCppModel(BaseLLMModel):

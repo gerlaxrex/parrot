@@ -3,15 +3,15 @@ import logging
 import os.path
 from typing import Union, List
 
-from parrot.audio.transcription.model import TimedTranscription
+from parrot1.audio.transcription.model import TimedTranscription
 
-from parrot import PARROT_CACHED_MODELS
-from parrot.commons.asr.base import BaseASRModel
-from parrot.commons.asr.faster_whisper import FasterWhisper
-from parrot.commons.asr.openai_whisper import OpenaiWhisper
-from parrot.config.config import PARROT_CONFIGS
+from parrot1 import PARROT_CACHED_MODELS
+from parrot1.commons.asr.base import BaseASRModel
+from parrot1.commons.asr.faster_whisper import FasterWhisper
+from parrot1.commons.asr.openai_whisper import OpenaiWhisper
+from parrot1.config.config import PARROT_CONFIGS
 
-from parrot.audio.extraction.audio_extraction import (
+from parrot1.audio.extraction.audio_extraction import (
     get_audio_from_video,
     split_audio_for_size,
 )
@@ -53,7 +53,7 @@ def get_client(use_faster_whisper: bool = False) -> Union[BaseASRModel, None]:
         )
     else:
         __logger.error(
-            "The faster-whisper package was not installed. Try fixing it by doing pip install parrot[faster-whisper]."
+            "The faster-whisper package was not installed. Try fixing it by doing pip install parrot1[faster-whisper]."
             "If not present, you cannot use a free ASR model such Whisper. "
             "Please set the OPENAI_API_KEY environment variable."
         )

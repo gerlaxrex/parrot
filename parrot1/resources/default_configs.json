@@ -14,14 +14,20 @@
     }
   },
   "generative_models": {
+    "chunking": {
+      "temperature": 0.15,
+      "max_tokens": 400
+    },
+    "text_generation": {
+      "temperature": 0.25,
+      "max_tokens": 750
+    },
     "openai": {
-      "model_type_or_size": "gpt-3.5-turbo-instruct",
-      "temperature": 0.2
+      "model_type_or_size": "gpt-3.5-turbo-instruct"
     },
     "llama_cpp": {
       "repo_id": "TheBloke/Llama-2-7B-GGUF",
-      "model_type_or_size": "llama-2-7b.Q4_K_M.gguf",
-      "temperature": 0.2
+      "model_type_or_size": "llama-2-7b.Q4_K_M.gguf"
     }
   }
 }

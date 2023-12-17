@@ -8,7 +8,19 @@ A tool for writing a recap mail or report from a video recording of a call.
 
 PARRoT can be installed by simply doing 
 
-`pip install PARRoT`
+`pip install parrot1`
+
+extras are:
+
+`faster-whisper` -> to install faster-whisper dependencies</br>
+`llama-cpp` -> to install llama-cpp dependencies</br>
+`os-models` -> to install both the previous ones</br>
+`docx` -> to use external transcription</br>
+`all` -> install everything</br>
+
+example
+
+`pip install parrot1[os-models]`
 
 You can find all the information needed for using the tool by doing 
 

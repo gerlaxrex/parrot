@@ -3,15 +3,15 @@ import importlib.util
 import os
 from typing import List, Union
 
-from parrot import PARROT_CACHED_MODELS
-from parrot.audio.transcription.model import TimedTranscription
+from parrot1 import PARROT_CACHED_MODELS
+from parrot1.audio.transcription.model import TimedTranscription
 
-from parrot.commons.generative.base import BaseLLMModel
-from parrot.commons.generative.llamacpp import LlamaCppModel
-from parrot.commons.generative.openai_gpt import OpenaiGPTModel
-from parrot.config.config import PARROT_CONFIGS
+from parrot1.commons.generative.base import BaseLLMModel
+from parrot1.commons.generative.llamacpp import LlamaCppModel
+from parrot1.commons.generative.openai_gpt import OpenaiGPTModel
+from parrot1.config.config import PARROT_CONFIGS
 
-from parrot.recap.tasks import ParrotTask, resolve_prompt_from_task
+from parrot1.recap.tasks import ParrotTask, resolve_prompt_from_task
 
 imp_llama_cpp = importlib.util.find_spec(name="llama_cpp")
 
@@ -43,7 +43,7 @@ def get_client(use_llama_cpp: bool = False) -> Union[BaseLLMModel, None]:
             )
         else:
             __logger.error(
-                "The llama-cpp-python package was not installed. Try fixing it by doing pip install parrot[llama-cpp]."
+                "The llama-cpp-python package was not installed. Try fixing it by doing pip install parrot1[llama-cpp]."
             )
             return None
 
@@ -55,8 +55,8 @@ async def generate_chunks(client: BaseLLMModel, texts: List[str]) -> List[str]:
 
     summaries = await client.generate_from_prompts(
         prompts=[prompt.format(text=text) for text in texts],
-        max_tokens=400,
-        temperature=0.15,
+        max_tokens=PARROT_CONFIGS.generative_models.chunking.max_tokens,
+        temperature=PARROT_CONFIGS.generative_models.chunking.temperature,
     )
 
     return summaries
@@ -74,8 +74,8 @@ async def generate_final_result(
 
     recap = await client.agenerate(
         prompt=prompt.format(texts="\n\n".join(summaries)),
-        max_tokens=750,
-        temperature=0.25,
+        max_tokens=PARROT_CONFIGS.generative_models.text_generation.max_tokens,
+        temperature=PARROT_CONFIGS.generative_models.text_generation.temperature,
     )
 
     return recap

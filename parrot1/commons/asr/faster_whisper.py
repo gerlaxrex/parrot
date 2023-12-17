@@ -4,11 +4,11 @@ from typing import Optional, Any, List
 
 from pydub import AudioSegment
 from tqdm import tqdm
-from parrot import PARROT_CACHED_MODELS
-from parrot.audio.transcription.model import TimedTranscription, TimedPiece
-from parrot.commons.asr.base import BaseASRModel
-from parrot.commons.asr.utils import format_audio_onto_ndarray
-from parrot.commons.models.language import Language
+from parrot1 import PARROT_CACHED_MODELS
+from parrot1.audio.transcription.model import TimedTranscription, TimedPiece
+from parrot1.commons.asr.base import BaseASRModel
+from parrot1.commons.asr.utils import format_audio_onto_ndarray
+from parrot1.commons.models.language import Language
 
 try:
     from faster_whisper import WhisperModel
@@ -46,7 +46,7 @@ class FasterWhisper(BaseASRModel):
                 )
             else:
                 self.__logger.error(
-                    "The faster-whisper package was not installed. Try fixing it by doing pip install parrot[faster-whisper]."
+                    "The faster-whisper package was not installed. Try fixing it by doing pip install parrot1[faster-whisper]."
                     "If not present, you cannot use a free ASR model such Whisper. "
                     "Alternatively, set the OPENAI_API_KEY environment variable."
                 )
