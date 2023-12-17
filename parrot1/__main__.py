@@ -17,6 +17,8 @@ from parrot1.recap.tasks import ParrotTask
 
 app = typer.Typer()
 
+logging.basicConfig(level=logging.INFO)
+
 
 @app.command()
 def mail(
@@ -105,5 +107,4 @@ def reload_configs():
 
 
 if __name__ == "__main__":
-    logging.basicConfig(level=logging.INFO)
     app()
