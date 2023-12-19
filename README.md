@@ -22,6 +22,9 @@ example
 
 `pip install parrot1[os-models]`
 
+**NOTE**:<br>
+Before using parrot you necessarily need to make sure you have `ffmpeg` installed! 
+
 You can find all the information needed for using the tool by doing 
 
 `parrot --help`
