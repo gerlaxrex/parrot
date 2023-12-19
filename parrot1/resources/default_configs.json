@@ -26,8 +26,8 @@
       "type_or_size": "gpt-3.5-turbo-instruct"
     },
     "llama_cpp": {
-      "repo_id": "TheBloke/Llama-2-7B-GGUF",
-      "type_or_size": "llama-2-7b.Q4_K_M.gguf"
+      "repo_id": "TheBloke/Mistral-7B-Instruct-v0.1-GGUF",
+      "type_or_size": "mistral-7b-instruct-v0.1.Q4_K_M.gguf"
     }
   }
 }
