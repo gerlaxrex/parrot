@@ -2,7 +2,6 @@
 import asyncio
 import logging
 import shutil
-import time
 from typing import Optional, Annotated
 
 import typer
@@ -35,9 +34,8 @@ def mail(
     ] = False,
 ) -> None:
     """Generates a recap mail for a given meeting. Optionally give a transcript with speakerstamps."""
-    s_time = time.perf_counter()
-    PARROT_CONFIGS.load_configurations()
     typer.secho("*squawk* Writing mail! *squawk*", fg=typer.colors.BRIGHT_GREEN)
+    PARROT_CONFIGS.load_configurations()
     transcription_chunks = transcribe_video_source(
         video_path, use_faster_whisper=use_faster_whisper, transcript=transcript
     )
@@ -53,8 +51,6 @@ def mail(
         output_filepath = pl.Path(output_filepath)
     else:
         output_filepath = pl.Path.cwd() / "mail.txt"
-
-    typer.secho(f"Process finished in {time.perf_counter() - s_time} seconds")
 
     with open(output_filepath, "w") as f:
         f.write(email)
@@ -110,7 +106,7 @@ def reload_configs():
     shutil.copyfile(src=DEFAULT_CONFIGS_PATH, dst=PARROT_CONFIG_FILE)
     PARROT_CONFIGS.load_configurations()
     typer.echo(
-        f"New Configs are: "
+        f"New Configs are:\n"
         f"{json.dumps(PARROT_CONFIGS.parrot_configs.dict(), indent=1)}"
     )
 
