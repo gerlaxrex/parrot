@@ -2,7 +2,7 @@
 
 [![powered by OpenAI](https://img.shields.io/badge/%7F-powered_by_OpenAI-grey.svg?logo=OpenAI)](https://shields.io/)<br>
 
-<img src="https://github.com/gerlaxrex/parrot/assets/36633875/06859697-8c19-4dc7-a23a-151fd18137ab" width="500" height="500" />
+<img src="https://github.com/gerlaxrex/parrot/blob/dbf60ce0d294d31afcebd811c5d89239623fa9d7/assets/images/parrot-logo.png?raw=true" width="500" height="500" />
 
 A tool for writing a recap mail or report from a video recording of a call.
 
@@ -53,7 +53,7 @@ Options:
 
 ## contributing
 
-First of all make sure you have have installed pre-commit and can use it.
+First of all make sure you have installed pre-commit and can use it.
 
 `pip install pre-commit`
 
