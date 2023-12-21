@@ -6,7 +6,7 @@ from parrot1.commons.models.language import Language
 
 
 class ASRConfigs(BaseModel):
-    model_type_or_size: str
+    type_or_size: str
     temperature: Optional[float] = 0.1
     prompt: Optional[str] = ""
     beam_size: Optional[int] = 5
@@ -16,7 +16,7 @@ class ASRConfigs(BaseModel):
 
 
 class LLMConfigs(BaseModel):
-    model_type_or_size: str
+    type_or_size: str
     repo_id: Optional[str] = None
 
     class Config:

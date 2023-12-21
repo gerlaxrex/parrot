@@ -24,7 +24,7 @@ def get_client(use_llama_cpp: bool = False) -> Union[BaseLLMModel, None]:
     if not use_llama_cpp:
         if os.getenv("OPENAI_API_KEY") is not None:
             return OpenaiGPTModel(
-                model_size_or_type=PARROT_CONFIGS.generative_models.openai.model_type_or_size
+                model_size_or_type=PARROT_CONFIGS.parrot_configs.generative_models.openai.type_or_size
             )
         else:
             __logger.error(
@@ -38,8 +38,8 @@ def get_client(use_llama_cpp: bool = False) -> Union[BaseLLMModel, None]:
             __logger.info(f"Using cache folder at {cache_root.as_posix()}")
             os.makedirs(cache_root, exist_ok=True)
             return LlamaCppModel(
-                repo_id=PARROT_CONFIGS.generative_models.llama_cpp.repo_id,
-                model_size_or_type=PARROT_CONFIGS.generative_models.llama_cpp.model_type_or_size,
+                repo_id=PARROT_CONFIGS.parrot_configs.generative_models.llama_cpp.repo_id,
+                model_size_or_type=PARROT_CONFIGS.parrot_configs.generative_models.llama_cpp.type_or_size,
             )
         else:
             __logger.error(
@@ -50,13 +50,13 @@ def get_client(use_llama_cpp: bool = False) -> Union[BaseLLMModel, None]:
 
 async def generate_chunks(client: BaseLLMModel, texts: List[str]) -> List[str]:
     prompt = resolve_prompt_from_task(
-        ParrotTask.CHUNK, language=PARROT_CONFIGS.language
+        ParrotTask.CHUNK, language=PARROT_CONFIGS.parrot_configs.language
     )
 
     summaries = await client.generate_from_prompts(
         prompts=[prompt.format(text=text) for text in texts],
-        max_tokens=PARROT_CONFIGS.generative_models.chunking.max_tokens,
-        temperature=PARROT_CONFIGS.generative_models.chunking.temperature,
+        max_tokens=PARROT_CONFIGS.parrot_configs.generative_models.chunking.max_tokens,
+        temperature=PARROT_CONFIGS.parrot_configs.generative_models.chunking.temperature,
     )
 
     return summaries
@@ -67,15 +67,17 @@ async def generate_final_result(
     task: ParrotTask = ParrotTask.RECAP,
     use_llama_cpp: bool = False,
 ) -> str:
-    prompt = resolve_prompt_from_task(task, language=PARROT_CONFIGS.language)
+    prompt = resolve_prompt_from_task(
+        task, language=PARROT_CONFIGS.parrot_configs.language
+    )
     client = get_client(use_llama_cpp)
 
     summaries = await generate_chunks(client, [t.text for t in texts])
 
     recap = await client.agenerate(
         prompt=prompt.format(texts="\n\n".join(summaries)),
-        max_tokens=PARROT_CONFIGS.generative_models.text_generation.max_tokens,
-        temperature=PARROT_CONFIGS.generative_models.text_generation.temperature,
+        max_tokens=PARROT_CONFIGS.parrot_configs.generative_models.text_generation.max_tokens,
+        temperature=PARROT_CONFIGS.parrot_configs.generative_models.text_generation.temperature,
     )
 
     return recap

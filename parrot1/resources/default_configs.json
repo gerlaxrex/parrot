@@ -2,12 +2,12 @@
   "language": "it",
   "asr_models": {
     "whisper": {
-      "model_type_or_size": "whisper-1",
+      "type_or_size": "whisper-1",
       "prompt": "",
       "temperature": 0.1
     },
     "faster_whisper": {
-      "model_type_or_size": "small",
+      "type_or_size": "small",
       "beam_size": 5,
       "temperature": 0.1,
       "prompt": ""
@@ -23,11 +23,11 @@
       "max_tokens": 750
     },
     "openai": {
-      "model_type_or_size": "gpt-3.5-turbo-instruct"
+      "type_or_size": "gpt-3.5-turbo-instruct"
     },
     "llama_cpp": {
-      "repo_id": "TheBloke/Llama-2-7B-GGUF",
-      "model_type_or_size": "llama-2-7b.Q4_K_M.gguf"
+      "repo_id": "TheBloke/Mistral-7B-Instruct-v0.1-GGUF",
+      "type_or_size": "mistral-7b-instruct-v0.1.Q4_K_M.gguf"
     }
   }
 }
