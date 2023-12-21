@@ -2,7 +2,6 @@
 import asyncio
 import logging
 import shutil
-import time
 from typing import Optional, Annotated
 
 import typer
@@ -10,7 +9,7 @@ import typer
 from parrot1 import PARROT_CONFIG_FILE, DEFAULT_CONFIGS_PATH
 from parrot1.audio.transcription.transcribe import transcribe_video_source
 from parrot1.recap.recap_generator import generate_final_result
-
+from parrot1.config.config import PARROT_CONFIGS
 import pathlib as pl
 
 from parrot1.recap.tasks import ParrotTask
@@ -35,8 +34,8 @@ def mail(
     ] = False,
 ) -> None:
     """Generates a recap mail for a given meeting. Optionally give a transcript with speakerstamps."""
-    s_time = time.perf_counter()
     typer.secho("*squawk* Writing mail! *squawk*", fg=typer.colors.BRIGHT_GREEN)
+    PARROT_CONFIGS.load_configurations()
     transcription_chunks = transcribe_video_source(
         video_path, use_faster_whisper=use_faster_whisper, transcript=transcript
     )
@@ -52,8 +51,6 @@ def mail(
         output_filepath = pl.Path(output_filepath)
     else:
         output_filepath = pl.Path.cwd() / "mail.txt"
-
-    typer.secho(f"Process finished in {time.perf_counter() - s_time} seconds")
 
     with open(output_filepath, "w") as f:
         f.write(email)
@@ -78,6 +75,7 @@ def report(
     If --transcript is provided, it will align the available speakerstamps
     """
     typer.secho("*squawk* Writing Recap report! *squawk*", fg=typer.colors.BRIGHT_BLUE)
+    PARROT_CONFIGS.load_configurations()
     transcription_chunks = transcribe_video_source(
         video_path, use_faster_whisper=use_faster_whisper, transcript=transcript
     )
@@ -102,8 +100,15 @@ def report(
 @app.command()
 def reload_configs():
     """Reloads the default configurations inside the .parrot1 folder"""
+    import json
+
     typer.secho("Reload configurations! *sqwuak*", fg=typer.colors.MAGENTA)
     shutil.copyfile(src=DEFAULT_CONFIGS_PATH, dst=PARROT_CONFIG_FILE)
+    PARROT_CONFIGS.load_configurations()
+    typer.echo(
+        f"New Configs are:\n"
+        f"{json.dumps(PARROT_CONFIGS.parrot_configs.dict(), indent=1)}"
+    )
 
 
 if __name__ == "__main__":

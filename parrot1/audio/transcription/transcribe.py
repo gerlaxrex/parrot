@@ -31,10 +31,10 @@ def get_client(use_faster_whisper: bool = False) -> Union[BaseASRModel, None]:
         )
     if os.getenv("OPENAI_API_KEY") is not None and not use_faster_whisper:
         return OpenaiWhisper(
-            model_size_or_type=PARROT_CONFIGS.asr_models.whisper.model_type_or_size,
-            language=PARROT_CONFIGS.language.value,
-            temperature=PARROT_CONFIGS.asr_models.whisper.temperature,
-            prompt=PARROT_CONFIGS.asr_models.whisper.prompt,
+            model_size_or_type=PARROT_CONFIGS.parrot_configs.asr_models.whisper.type_or_size,
+            language=PARROT_CONFIGS.parrot_configs.language.value,
+            temperature=PARROT_CONFIGS.parrot_configs.asr_models.whisper.temperature,
+            prompt=PARROT_CONFIGS.parrot_configs.asr_models.whisper.prompt,
         )
     elif has_faster_whisper:
         cache_root = PARROT_CACHED_MODELS
@@ -44,11 +44,11 @@ def get_client(use_faster_whisper: bool = False) -> Union[BaseASRModel, None]:
         )
         os.makedirs(cache_root, exist_ok=True)
         return FasterWhisper(
-            model_size_or_type=PARROT_CONFIGS.asr_models.faster_whisper.model_type_or_size,
-            language=PARROT_CONFIGS.language.value,
-            prompt=PARROT_CONFIGS.asr_models.faster_whisper.prompt,
-            temperature=PARROT_CONFIGS.asr_models.faster_whisper.temperature,
-            beam_size=PARROT_CONFIGS.asr_models.faster_whisper.beam_size,
+            model_size_or_type=PARROT_CONFIGS.parrot_configs.asr_models.faster_whisper.type_or_size,
+            language=PARROT_CONFIGS.parrot_configs.language.value,
+            prompt=PARROT_CONFIGS.parrot_configs.asr_models.faster_whisper.prompt,
+            temperature=PARROT_CONFIGS.parrot_configs.asr_models.faster_whisper.temperature,
+            beam_size=PARROT_CONFIGS.parrot_configs.asr_models.faster_whisper.beam_size,
             download_root=cache_root,
         )
     else:
