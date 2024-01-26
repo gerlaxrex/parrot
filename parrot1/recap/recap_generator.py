@@ -63,12 +63,11 @@ async def generate_chunks(client: BaseLLMModel, texts: List[str]) -> List[str]:
 
 
 async def filter_unrelated_topics(
-    chunks: List[str], use_llama_cpp: bool = False
+    client: BaseLLMModel, chunks: List[str], *, use_llama_cpp: bool = False
 ) -> List[str]:
     prompt = resolve_prompt_from_task(
         task=ParrotTask.FILTERING, language=PARROT_CONFIGS.parrot_configs.language
     )
-    client = get_client(use_llama_cpp)
 
     filtered_chunks = await client.generate_from_prompts(
         prompts=[prompt.format(chunk=chunk) for chunk in chunks]
@@ -87,7 +86,9 @@ async def generate_final_result(
     )
     client = get_client(use_llama_cpp)
 
-    summaries = await generate_chunks(client, [t.text for t in texts])
+    filtered_texts = await filter_unrelated_topics(client, [t.text for t in texts])
+
+    summaries = await generate_chunks(client, filtered_texts)
 
     recap = await client.agenerate(
         prompt=prompt.format(texts="\n\n".join(summaries)),
