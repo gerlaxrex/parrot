@@ -8,6 +8,8 @@ from parrot1.recap import (
     REPORT_PROMPT_IT,
     REPORT_PROMPT_EN,
     CHUNK_PROMPT_IT,
+    FILTERING_PROMPT_IT,
+    FILTERING_PROMPT_EN,
 )
 
 
@@ -15,6 +17,7 @@ class ParrotTask(str, enum.Enum):
     MAIL = "mail"
     RECAP = "recap"
     CHUNK = "chunk"
+    FILTERING = "filter"
 
 
 TASK_TO_PROMPT = {
@@ -22,11 +25,13 @@ TASK_TO_PROMPT = {
         ParrotTask.MAIL: EMAIL_PROMPT_EN,
         ParrotTask.RECAP: REPORT_PROMPT_EN,
         ParrotTask.CHUNK: CHUNK_PROMPT_EN,
+        ParrotTask.FILTERING: FILTERING_PROMPT_EN,
     },
     Language.IT: {
         ParrotTask.MAIL: EMAIL_PROMPT_IT,
         ParrotTask.RECAP: REPORT_PROMPT_IT,
         ParrotTask.CHUNK: CHUNK_PROMPT_IT,
+        ParrotTask.FILTERING: FILTERING_PROMPT_IT,
     },
 }
 

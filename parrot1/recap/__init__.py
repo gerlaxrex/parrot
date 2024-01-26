@@ -2,8 +2,7 @@
 
 # ITALIAN
 
-CHUNK_PROMPT_IT = """
-Genera un riassunto di massimo 100 parole data la trascrizione di una chiamata su Microsoft Teams che ti verrà fornita di seguito.
+CHUNK_PROMPT_IT = """Genera un riassunto di massimo 100 parole data la trascrizione di una chiamata su Microsoft Teams che ti verrà fornita di seguito.
 Il riassunto deve essere una descrizione dei punti più importanti menzionati nella trascrizione.
 Devi identificare i punti più importanti e riportarli con delle frasi autoconclusive e concise.
 Rifletti sul tuo task punto per punto e genera il riassunto.
@@ -15,8 +14,7 @@ Riassunto:
 """
 
 
-EMAIL_PROMPT_IT = """
-Sei un PM incaricato di generare delle email di recap che siano consistenti e ben fatte.
+EMAIL_PROMPT_IT = """Sei un PM incaricato di generare delle email di recap che siano consistenti e ben fatte.
 Genera una email di riassunto partendo dalla trascrizione testuale di una chiamata su Microsoft Teams. 
 La mail deve essere di massimo 300 parole e devi selezionare i punti più importanti dati i seguenti testi.
 Nella mail scrivi inizialmente un piccolo riassunto del tema principale, inserendo successivamente un elenco puntato con al massimo 10 punti salienti per la trascrizione.
@@ -31,8 +29,7 @@ E-mail:
 """
 
 
-REPORT_PROMPT_IT = """
-Sulla base delle informazioni contenute nella trascrizione seguente, genera un report.
+REPORT_PROMPT_IT = """Sulla base delle informazioni contenute nella trascrizione seguente, genera un report.
 Il report dovrebbe fornire un'analisi dettagliata di ciascun argomento discusso, spiegando come ciascun argomento ha contribuito alla riunione.
 Concentrati sulla pertinenza, l’affidabilità e il significato di ciascun argomento.
 Assicurati che il report sia ben strutturato, informativo, approfondito e segua una sintassi Markdown.
@@ -46,10 +43,19 @@ Trascrizione:
 Report:
 """
 
+FILTERING_PROMPT_IT = """Considerato il seguente pezzo di trascrizione proveniente da una registrazione:
+
+{chunk}
+
+Restituisce il pezzo di trascrizione senza frasi che non siano inerenti all'argomento generale del pezzo di trascrizione.
+Se necessario riscrivilo utilizzando solo le informazioni rilevanti. Sarai altamente ricompensato se nel pezzo non è contenuto nulla fuori tema.
+
+Pezzo finale:
+"""
+
 # ENGLISH
 
-CHUNK_PROMPT_EN = """
-Generate a summary of up to 100 words given the Microsoft Teams call transcript provided below.
+CHUNK_PROMPT_EN = """Generate a summary of up to 100 words given the Microsoft Teams call transcript provided below.
 The summary should be a description of the most important points mentioned in the transcript.
 You must identify the most important points and report them in self-contained and concise sentences.
 Reflect on your task point by point and generate the summary.
@@ -61,8 +67,7 @@ Summary:
 """
 
 
-EMAIL_PROMPT_EN = """
-You are a PM tasked with generating delivery emails that are consistent and well-crafted.
+EMAIL_PROMPT_EN = """You are a PM tasked with generating delivery emails that are consistent and well-crafted.
 Generate a summary email starting from the text transcription of a call on Microsoft Teams.
 The email must be a maximum of 300 words and you must select the most important points given the following texts.
 In the email, initially write a small summary of the main theme, subsequently inserting a bulleted list with a maximum of 10 salient points for transcription.
@@ -77,8 +82,7 @@ E-mail:
 """
 
 
-REPORT_PROMPT_EN = """
-Based on the information in the following transcription, generate a report. 
+REPORT_PROMPT_EN = """Based on the information in the following transcription, generate a report. 
 The report should provide a detailed analysis of each discussed topic, explaining how each topic contributed to the meeting.
 Focus on the relevance, reliability, and significance of each topic.
 Ensure that the report is well-structured, informative, in-depth, and follows Markdown syntax.
@@ -90,4 +94,14 @@ Transcription:
 {texts}
 
 Report:
+"""
+
+FILTERING_PROMPT_EN = """Given the following chunk of transcription coming from a recording:
+
+{chunk}
+
+Return the chunk of transcription without phrases that are not inherent about the general topic of the transcription's chunk.
+If necessary rewrite it using only the relevant information. You will be highly rewarded if nothing out of topic is contained in the chunk.
+
+Final chunk: 
 """
