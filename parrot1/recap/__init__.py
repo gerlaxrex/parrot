@@ -36,6 +36,7 @@ Sulla base delle informazioni contenute nella trascrizione seguente, genera un r
 Il report dovrebbe fornire un'analisi dettagliata di ciascun argomento discusso, spiegando come ciascun argomento ha contribuito alla riunione.
 Concentrati sulla pertinenza, l’affidabilità e il significato di ciascun argomento.
 Assicurati che il report sia ben strutturato, informativo, approfondito e segua una sintassi Markdown.
+Separa le varie sezioni con titoli ed eventuali sottotitoli.
 Includi fatti, domande e numeri rilevanti quando disponibili.
 Il report dovrà avere una lunghezza minima di 1.200 parole e di massimo 2,500 parole.
 
@@ -81,6 +82,7 @@ Based on the information in the following transcription, generate a report.
 The report should provide a detailed analysis of each discussed topic, explaining how each topic contributed to the meeting.
 Focus on the relevance, reliability, and significance of each topic.
 Ensure that the report is well-structured, informative, in-depth, and follows Markdown syntax.
+Split the various sections with titles and possibly subtitles.
 Include relevant facts, questions, and numbers whenever available.
 The report should have a minimum length of 1,200 words and maximum of 2,500.
 
