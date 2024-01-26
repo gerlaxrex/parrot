@@ -2,6 +2,7 @@ import asyncio
 import logging
 from typing import Any, List, Optional
 
+import tiktoken
 from openai import AsyncClient
 from tqdm.asyncio import tqdm_asyncio as tqdm
 
@@ -38,3 +39,7 @@ class OpenaiGPTModel(BaseLLMModel):
         )
 
         return [response.choices[0].text for response in responses]
+
+    async def count_tokens(self, prompt: str, **kwargs) -> int:
+        encoding = tiktoken.encoding_for_model(self.model_size_or_type)
+        return len(encoding.encode(prompt))

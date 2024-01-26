@@ -27,3 +27,7 @@ class BaseLLMModel(ABC):
     @abstractmethod
     def __call__(self, prompt: str, **kwargs) -> str:
         raise NotImplementedError("Abstract class. You should reimplement the method.")
+
+    @abstractmethod
+    async def count_tokens(self, prompt: str, **kwargs) -> int:
+        raise NotImplementedError("Abstract class. You should reimplement the method.")

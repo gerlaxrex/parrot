@@ -55,3 +55,6 @@ class LlamaCppModel(BaseLLMModel):
 
     async def generate_from_prompts(self, prompts: List[str], **kwargs) -> List[str]:
         return [self.generate(prompt, **kwargs) for prompt in tqdm(prompts)]
+
+    async def count_tokens(self, prompt: str, **kwargs) -> int:
+        return len(self.client_or_model.tokenize())
