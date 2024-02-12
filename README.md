@@ -6,7 +6,7 @@
 
 A tool for writing a recap mail or report from a video recording of a call.
 
-## installation
+## Installation
 
 PARRoT can be installed from pyPI by simply doing:
 
@@ -29,7 +29,7 @@ python -m pip install parrot1[os-models]
 
 **NOTE:** PARRoT requires [FFmpeg](https://ffmpeg.org/) available and visible in the system! 
 
-## usage
+## Usage
 
 You can find all the information needed for using the tool by doing 
 
@@ -39,19 +39,19 @@ At the moment, there are two commands:
 
 `parrot mail <video_path>`
 and
-`parrot recap <video_path>`
+`parrot report <video_path>`
 
 Options:
 
 `--transcript (-t) <PATH>`: path to the transcript with speakers (Optional).
 
-`--output_filepath (-o) <PATH>`: path to the final result (Optional, by default it creates the file in the current working directory).
+`--output-filepath (-o) <PATH>`: path to the final result (Optional, by default it creates the file in the current working directory).
 
 `--faster-whisper (-fw)`: If set, it uses faster whisper instead of hosted OpenAI Whisper.
 
 `--llama-cpp (-lc)`: If set, it uses llama-cpp instead of the hosted OpenAI GPT model.
 
-## contributing
+## Contributing
 
 First of all make sure you have installed pre-commit and can use it.
 
