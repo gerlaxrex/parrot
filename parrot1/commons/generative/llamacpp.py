@@ -1,6 +1,6 @@
 import logging
 import os.path
-from typing import Any, List, Optional
+from typing import Any, List, Optional, Dict
 
 try:
     import huggingface_hub
@@ -20,7 +20,9 @@ class LlamaCppModel(BaseLLMModel):
         self,
         repo_id: str,
         model_size_or_type: str,
+        *,
         client_or_model: Optional[Any] = None,
+        extra_arguments: Dict[str, Any] = None,
     ):
         super().__init__(model_size_or_type, client_or_model)
         self.__logger = logging.getLogger("LlamaCpp")
@@ -37,7 +39,7 @@ class LlamaCppModel(BaseLLMModel):
                 )
             self.__logger.info(f"Loading model from {model_path}")
             self.client_or_model = Llama(
-                model_path=model_path.as_posix(), verbose=False, n_ctx=4096
+                model_path=model_path.as_posix(), **extra_arguments
             )
 
     async def agenerate(self, prompt: str, **kwargs) -> str:

@@ -40,6 +40,7 @@ def get_client(use_llama_cpp: bool = False) -> Union[BaseLLMModel, None]:
             return LlamaCppModel(
                 repo_id=PARROT_CONFIGS.parrot_configs.generative_models.llama_cpp.repo_id,
                 model_size_or_type=PARROT_CONFIGS.parrot_configs.generative_models.llama_cpp.type_or_size,
+                extra_arguments=PARROT_CONFIGS.parrot_configs.generative_models.llama_cpp.model_extra,
             )
         else:
             __logger.error(
