@@ -24,7 +24,7 @@ def mail(
     video_path: Annotated[str, typer.Argument()],
     transcript: Annotated[Optional[str], typer.Option("--transcript", "-t")] = None,
     output_filepath: Annotated[
-        Optional[str], typer.Option("--output_filepath", "-o")
+        Optional[str], typer.Option("--output-filepath", "-o")
     ] = None,
     use_faster_whisper: Annotated[
         Optional[bool], typer.Option("--faster-whisper", "-fw")
