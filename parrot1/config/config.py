@@ -1,5 +1,6 @@
 import json
 import logging
+from typing import Optional
 
 from pydantic.error_wrappers import ValidationError
 
@@ -9,7 +10,7 @@ from parrot1.config.config_model import ParrotConfigs
 
 class ParrotConfigurationLoader:
     def __init__(self):
-        self.parrot_configs = None
+        self.parrot_configs: Optional[ParrotConfigs] = None
         self.__logger = logging.getLogger(__name__)
 
     def load_configurations(self):
