@@ -13,6 +13,7 @@ class ASRConfigs(BaseModel):
 
     class Config:
         frozen: True
+        extra = "allow"
 
 
 class LLMConfigs(BaseModel):
@@ -21,6 +22,7 @@ class LLMConfigs(BaseModel):
 
     class Config:
         frozen: True
+        extra = "allow"
 
 
 class LLMParamsConfigs(BaseModel):
